@@ -1,0 +1,9 @@
+# irqbalance is a daemon process that distributes interrupts across
+# CPUS on SMP systems.  The default is to rebalance once every 10
+# seconds.  There is one configuration option:
+#
+# ONESHOT=yes
+#    after starting, wait for a minute, then look at the interrupt
+#    load and balance it once; after balancing exit and do not change
+#    it again.
+ONESHOT=
