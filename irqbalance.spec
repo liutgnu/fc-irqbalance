@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        1.12
-Release: 	%(R="$Revision$"; RR="${R##: }"; echo ${RR%%?})
+Release: 	%(R="$Rev: 1.12 $"; RR="${R##: }"; echo ${RR%%?})
 Serial:         1
 Group:          System Environment/Base
 License:        GPL/OSL
