@@ -68,6 +68,9 @@ exit 0
 
 
 %changelog
+* Tue Mar  1 2005 Dave Jones <davej@redhat.com>
+- Rebuild with gcc4
+
 * Tue Feb  8 2005 Dave Jones <davej@redhat.com>
 - Build as pie, also -D_FORTIFY_SOURCE=2
 
