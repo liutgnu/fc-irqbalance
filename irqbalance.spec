@@ -62,6 +62,11 @@ fi
 %post
 /sbin/chkconfig --add irqbalance
 
+%triggerpostun -- kernel-utils
+/sbin/chkconfig --add irqbalance
+exit 0
+
+
 %changelog
 * Tue Jan 11 2005 Dave Jones <davej@redhat.com>
 - Add missing Obsoletes: kernel-utils.
