@@ -2,7 +2,7 @@ Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        1.12
 Release: 	%(R="$Revision$"; RR="${R##: }"; echo ${RR%%?})
-Serial:         1
+Epoch:		1
 Group:          System Environment/Base
 License:        GPL/OSL
 Source0:	irqbalance-0.12.tar.gz
@@ -31,7 +31,7 @@ mkdir -p %{buildroot}/etc/rc.d/init.d
 mkdir -p %{buildroot}/etc/sysconfig
 
 cd irqbalance
-make
+make CFLAGS="$RPM_OPT_FLAGS -fpie -pie -D_FORTIFY_SOURCE=2"
 
 %install
 mkdir -p %{buildroot}/usr/share/man/man{1,8}
@@ -68,6 +68,9 @@ exit 0
 
 
 %changelog
+* Tue Feb  8 2005 Dave Jones <davej@redhat.com>
+- Build as pie, also -D_FORTIFY_SOURCE=2
+
 * Tue Jan 11 2005 Dave Jones <davej@redhat.com>
 - Add missing Obsoletes: kernel-utils.
 
