@@ -31,7 +31,7 @@ mkdir -p %{buildroot}/etc/rc.d/init.d
 mkdir -p %{buildroot}/etc/sysconfig
 
 cd irqbalance
-make CFLAGS="$RPM_OPT_FLAGS -fpie -pie -D_FORTIFY_SOURCE=2"
+make CFLAGS="$RPM_OPT_FLAGS -fpie -pie"
 
 %install
 mkdir -p %{buildroot}/usr/share/man/man{1,8}
