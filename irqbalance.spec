@@ -12,6 +12,7 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-root
 Prereq:		/sbin/chkconfig /sbin/service
 Patch1: irqbalance-pie.patch
 ExclusiveArch:	i386 x86_64 ia64
+Obsoletes:	kernel-utils
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -62,6 +63,9 @@ fi
 /sbin/chkconfig --add irqbalance
 
 %changelog
+* Tue Jan 11 2005 Dave Jones <davej@redhat.com>
+- Add missing Obsoletes: kernel-utils
+
 * Mon Jan 10 2005 Dave Jones <davej@redhat.com>
 - Start irqbalance in runlevel 2 too. (#102064)
 
