@@ -37,8 +37,8 @@ mkdir -p %{buildroot}/usr/share/man/man{1,8}
 
 cd irqbalance
 install irqbalance  %{buildroot}/usr/sbin
-install %{SOURCE91} %{buildroot}/etc/rc.d/init.d/irqbalance
-install %{SOURCE92} %{buildroot}/etc/sysconfig/irqbalance
+install %{SOURCE1} %{buildroot}/etc/rc.d/init.d/irqbalance
+install %{SOURCE2} %{buildroot}/etc/sysconfig/irqbalance
 install irqbalance.1 %{buildroot}/usr/share/man/man1/
 
 chmod -R a-s %{buildroot}
