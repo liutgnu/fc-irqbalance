@@ -62,6 +62,9 @@ fi
 /sbin/chkconfig --add irqbalance
 
 %changelog
+* Mon Jan 10 2005 Dave Jones <davej@redhat.com>
+- Start irqbalance in runlevel 2 too. (#102064)
+
 * Sat Dec 18 2004 Dave Jones <davej@redhat.com>
 - Initial packaging, based on kernel-utils.
 

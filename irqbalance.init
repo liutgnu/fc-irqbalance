@@ -2,7 +2,7 @@
 #
 # irqbalance       Start/Stop irq balancing daemon
 #
-# chkconfig: 345 13 87
+# chkconfig: 2345 13 87
 # description: The irqbalance daemon will distribute interrupts across  \
 #              the cpus on a multiprocessor system with the purpose of \
 #              spreading the load. \
