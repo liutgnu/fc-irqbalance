@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        1.12
-Release: %(R="$Revision$"; RR="${R##: }"; echo ${RR%%?})
+Release: %(R="$Revision$"; RR="${R##: }"; echo ${RR%%?}).1
 Epoch:		1
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -68,6 +68,9 @@ exit 0
 
 
 %changelog
+* Fri Dec 16 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt for new gcj
+
 * Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt
 
