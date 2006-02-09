@@ -68,6 +68,9 @@ exit 0
 
 
 %changelog
+* Thu Feb 09 2006 Dave Jones <davej@redhat.com>
+- rebuild.
+
 * Fri Dec 16 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt for new gcj
 
