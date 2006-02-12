@@ -11,7 +11,7 @@ Source2:	irqbalance.sysconfig
 Buildroot:      %{_tmppath}/%{name}-%{version}-root
 Prereq:		/sbin/chkconfig /sbin/service
 Patch1: irqbalance-pie.patch
-ExclusiveArch:	i386 x86_64 ia64
+ExclusiveArch:	i386 x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
 
 %description
@@ -68,6 +68,9 @@ exit 0
 
 
 %changelog
+* Sun Feb 12 2006 Dave Jones <davej@redhat.com>
+- Build for ppc[64] too.
+
 * Thu Feb 09 2006 Dave Jones <davej@redhat.com>
 - rebuild.
 
