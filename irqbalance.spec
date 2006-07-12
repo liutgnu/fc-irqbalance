@@ -70,6 +70,9 @@ exit 0
 
 
 %changelog
+* Tue Jul 11 2006 Dave Jones <davej@redhat.com>
+- Further lazy rebalancing tweaks.
+
 * Sun Feb 26 2006 Dave Jones <davej@redhat.com>
 - Don't rebalance IRQs where no interrupts have occured.
 
