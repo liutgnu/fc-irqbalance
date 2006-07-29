@@ -12,6 +12,7 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-root
 Prereq:		/sbin/chkconfig /sbin/service
 Patch1: irqbalance-pie.patch
 Patch2: irqbalance-norebalance-zeroints.patch
+Patch3: irqbalance-classes.patch
 ExclusiveArch:	i386 x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
 
@@ -23,6 +24,7 @@ multiple CPUs for enhanced performance.
 %setup -q -c -a 0
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 rm -rf $RPM_BUILD_ROOT
@@ -70,6 +72,9 @@ exit 0
 
 
 %changelog
+* Sat Jul 29 2006 Dave Jones <davej@redhat.com>
+- identify a bunch more classes.
+
 * Fri Jul 14 2006 Jesse Keating <jkeating@redhat.com>
 - rebuild
 
