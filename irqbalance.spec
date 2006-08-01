@@ -1,11 +1,11 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
-Version:        1.12
+Version:        1.13
 Release: 	%(R="$Revision$"; RR="${R##: }"; echo ${RR%%?})%{?dist}
 Epoch:		1
 Group:          System Environment/Base
 License:        GPL/OSL
-Source0:	irqbalance-0.12.tar.gz
+Source0:	irqbalance-0.13.tar.gz
 Source1:	irqbalance.init
 Source2:	irqbalance.sysconfig
 Buildroot:      %{_tmppath}/%{name}-%{version}-root
@@ -72,6 +72,9 @@ exit 0
 
 
 %changelog
+* Tue Aug 01 2006 Neil Horman <nhorman@redhat.com>
+- Change license to GPL in version 0.13
+
 * Sat Jul 29 2006 Dave Jones <davej@redhat.com>
 - identify a bunch more classes.
 
