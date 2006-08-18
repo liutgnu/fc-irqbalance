@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        1.13
-Release: 	%(R="$Revision$"; RR="${R##: }"; echo ${RR%%?})%{?dist}
+Release: 	2%{?dist}
 Epoch:		1
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -72,6 +72,12 @@ exit 0
 
 
 %changelog
+* Fri Aug 18 2006 Jesse Keating <jkeating@redhat.com> - 1.13-2
+- rebuilt with latest binutils to pick up 64K -z commonpagesize on ppc*
+  (#203001)
+- Remove hack to use cvs checkin ID as release as it doesn't follow
+  packaging guidelines
+
 * Tue Aug 01 2006 Neil Horman <nhorman@redhat.com>
 - Change license to GPL in version 0.13
 
