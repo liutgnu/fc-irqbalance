@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        1.13
-Release: 	3%{?dist}
+Release: 	4%{?dist}
 Epoch:		1
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -72,7 +72,7 @@ exit 0
 
 
 %changelog
-* Wed Sep 13 2006 Peter Jones <pjones@redhat.com> - 1.13-3
+* Wed Sep 13 2006 Peter Jones <pjones@redhat.com> - 1.13-4
 - Fix subsystem locking
 
 * Fri Aug 18 2006 Jesse Keating <jkeating@redhat.com> - 1.13-2

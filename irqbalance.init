@@ -43,12 +43,21 @@ esac
 RETVAL=0
 
 start() {
+        if [ -n "$ONESHOT" -a -f /var/lock/irqbalance ]; then
+                exit 0
+        fi
         echo -n $"Starting $prog: "
         daemon irqbalance $ONESHOT
         RETVAL=$?
         echo
-        [ $RETVAL -eq 0 -a -z "$ONESHOT" ] && touch /var/lock/subsys/irqbalance
-	return $RETVAL
+        if [ $RETVAL -eq 0 ]; then
+                if [ -n "$ONESHOT" ]; then
+                        touch /var/lock/subsys/irqbalance
+                else
+                        touch /var/lock/irqbalance
+                fi
+        fi
+        return $RETVAL
 }
 
 
