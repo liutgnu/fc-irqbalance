@@ -47,7 +47,7 @@ start() {
         daemon irqbalance $ONESHOT
         RETVAL=$?
         echo
-        [ $RETVAL -eq 0 -a -n "$ONESHOT" ] && touch /var/lock/subsys/irqbalance
+        [ $RETVAL -eq 0 -a -z "$ONESHOT" ] && touch /var/lock/subsys/irqbalance
 	return $RETVAL
 }
 
