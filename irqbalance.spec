@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        1.13
-Release: 	4%{?dist}
+Release: 	5%{?dist}
 Epoch:		1
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -13,6 +13,7 @@ Prereq:		/sbin/chkconfig /sbin/service
 Patch1: irqbalance-pie.patch
 Patch2: irqbalance-norebalance-zeroints.patch
 Patch3: irqbalance-classes.patch
+Patch4: irqbalance-oneshot.patch
 ExclusiveArch:	i386 x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
 
@@ -25,6 +26,7 @@ multiple CPUs for enhanced performance.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -rf $RPM_BUILD_ROOT
@@ -72,6 +74,9 @@ exit 0
 
 
 %changelog
+* Tue Oct 17 2006 Neil Horman <nhorman@redhat.com> - 1.1-5
+- Making oneshot mean oneshot always (bz 211178)
+
 * Wed Sep 13 2006 Peter Jones <pjones@redhat.com> - 1.13-4
 - Fix subsystem locking
 
