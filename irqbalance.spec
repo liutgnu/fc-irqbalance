@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        1.13
-Release: 	6%{?dist}
+Release: 	7%{?dist}
 Epoch:		1
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -15,6 +15,8 @@ Patch2: irqbalance-norebalance-zeroints.patch
 Patch3: irqbalance-classes.patch
 Patch4: irqbalance-oneshot.patch
 Patch5: irqbalance-max-interrupts-increase.patch
+Patch6: irqbalance-multicore.patch
+
 ExclusiveArch:	i386 x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
 
@@ -29,6 +31,7 @@ multiple CPUs for enhanced performance.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 rm -rf $RPM_BUILD_ROOT
@@ -76,6 +79,9 @@ exit 0
 
 
 %changelog
+* Wed Nov 08 2006 Neil Horman <nhorman@redhat.com> - 1.13-7
+- fix up irqbalance to detect multicore (not ht) (bz 211183)
+
 * Thu Nov 02 2006 Neil Horman <nhorman@redhat.com> - 1.13-6
 - bumping up MAX_INTERRUPTS to support xen kernels
 - rediffing patch1 and patch3 to remove fuzz
