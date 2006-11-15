@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        1.13
-Release: 	7%{?dist}
+Release: 	8%{?dist}
 Epoch:		1
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -16,6 +16,7 @@ Patch3: irqbalance-classes.patch
 Patch4: irqbalance-oneshot.patch
 Patch5: irqbalance-max-interrupts-increase.patch
 Patch6: irqbalance-multicore.patch
+Patch7: irqbalance-affinty-mask.patch
 
 ExclusiveArch:	i386 x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
@@ -32,6 +33,7 @@ multiple CPUs for enhanced performance.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 rm -rf $RPM_BUILD_ROOT
@@ -79,6 +81,9 @@ exit 0
 
 
 %changelog
+* Wed Nov 15 2006 Neil Horman <nhorman@redhat.com> - 1.13-8
+- Add ability to set default affinity mask (bz 211148)
+
 * Wed Nov 08 2006 Neil Horman <nhorman@redhat.com> - 1.13-7
 - fix up irqbalance to detect multicore (not ht) (bz 211183)
 

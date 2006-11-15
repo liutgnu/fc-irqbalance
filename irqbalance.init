@@ -47,7 +47,11 @@ start() {
                 exit 0
         fi
         echo -n $"Starting $prog: "
-        daemon irqbalance $ONESHOT
+	if [ -n "$IRQ_AFFINITY_MASK" ];
+	then
+		IRQ_AFFINITY="--afin_mask $IRQ_AFFINITY_MASK"
+	fi 	
+        daemon irqbalance $ONESHOT $IRQ_AFFINITY
         RETVAL=$?
         echo
         if [ $RETVAL -eq 0 ]; then
