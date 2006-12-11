@@ -14,7 +14,8 @@ Prereq:		/sbin/chkconfig /sbin/service
 
 ExclusiveArch:	i386 x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
-
+BuildRequires:	glib2-devel pkgconfig imake
+Requires:	glib2
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across

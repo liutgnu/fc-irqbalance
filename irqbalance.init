@@ -49,7 +49,7 @@ start() {
         echo -n $"Starting $prog: "
 	if [ -n "$IRQ_AFFINITY_MASK" ];
 	then
-		IRQ_AFFINITY="--afin_mask $IRQ_AFFINITY_MASK"
+		export IRQBALANCE_BANNED_CPUS=$IRQ_AFFINITY_MASK"
 	fi 	
         daemon irqbalance $ONESHOT $IRQ_AFFINITY
         RETVAL=$?
