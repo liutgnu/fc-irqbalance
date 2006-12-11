@@ -1,25 +1,20 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
-Version:        1.13
-Release: 	8%{?dist}
-Epoch:		1
+Version:        0.54 
+Release: 	1%{?dist}
+Epoch:		2	
 Group:          System Environment/Base
 License:        GPL/OSL
-Source0:	irqbalance-0.13.tar.gz
+Source0:	http://www.irqbalance.org/releases/irqbalance-0.54.tar.gz	
 Source1:	irqbalance.init
 Source2:	irqbalance.sysconfig
+Source3:	irqbalance.1
 Buildroot:      %{_tmppath}/%{name}-%{version}-root
 Prereq:		/sbin/chkconfig /sbin/service
-Patch1: irqbalance-pie.patch
-Patch2: irqbalance-norebalance-zeroints.patch
-Patch3: irqbalance-classes.patch
-Patch4: irqbalance-oneshot.patch
-Patch5: irqbalance-max-interrupts-increase.patch
-Patch6: irqbalance-multicore.patch
-Patch7: irqbalance-affinty-mask.patch
 
 ExclusiveArch:	i386 x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
+
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -27,13 +22,6 @@ multiple CPUs for enhanced performance.
 
 %prep
 %setup -q -c -a 0
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
 
 %build
 rm -rf $RPM_BUILD_ROOT
@@ -44,7 +32,7 @@ mkdir -p %{buildroot}/etc/rc.d/init.d
 mkdir -p %{buildroot}/etc/sysconfig
 
 cd irqbalance
-make CFLAGS="$RPM_OPT_FLAGS -fpie -pie"
+make 
 
 %install
 mkdir -p %{buildroot}/usr/share/man/man{1,8}
@@ -53,7 +41,7 @@ cd irqbalance
 install irqbalance  %{buildroot}/usr/sbin
 install %{SOURCE1} %{buildroot}/etc/rc.d/init.d/irqbalance
 install %{SOURCE2} %{buildroot}/etc/sysconfig/irqbalance
-install irqbalance.1 %{buildroot}/usr/share/man/man1/
+install %{SOURCE3} %{buildroot}/usr/share/man/man1/
 
 chmod -R a-s %{buildroot}
 
@@ -63,8 +51,8 @@ chmod -R a-s %{buildroot}
 %files
 %defattr(-,root,root)
 /usr/sbin/irqbalance
-%attr(0644,root,root) %{_mandir}/*/*
 /etc/rc.d/init.d/irqbalance
+%attr(0644,root,root) %{_mandir}/*/*
 %attr(0644,root,root) /etc/sysconfig/irqbalance
 
 %preun
@@ -81,6 +69,9 @@ exit 0
 
 
 %changelog
+* Mon Dec 11 2006 Neil Horman <nhorman@redhat.com> - 0.54-1
+- Update irqbalance to new version released at www.irqbalance.org
+
 * Wed Nov 15 2006 Neil Horman <nhorman@redhat.com> - 1.13-8
 - Add ability to set default affinity mask (bz 211148)
 
