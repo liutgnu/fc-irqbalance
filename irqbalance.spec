@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	1%{?dist}
+Release: 	2%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -70,7 +70,10 @@ exit 0
 
 
 %changelog
-* Mon Dec 12 2006 Neil Horman <nhorman@redhat.com> - 0.55-1
+* Tue Dec 12 2006 Neil Horman <nhorman@redhat.com> - 0.55-2
+- Fixing typos in spec file (bz 219301)
+
+* Tue Dec 12 2006 Neil Horman <nhorman@redhat.com> - 0.55-1
 - Updating to version 0.55
 
 * Mon Dec 11 2006 Neil Horman <nhorman@redhat.com> - 0.54-1

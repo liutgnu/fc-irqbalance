@@ -49,7 +49,7 @@ start() {
         echo -n $"Starting $prog: "
 	if [ -n "$IRQ_AFFINITY_MASK" ];
 	then
-		export IRQBALANCE_BANNED_CPUS=$IRQ_AFFINITY_MASK"
+		export IRQBALANCE_BANNED_CPUS=$IRQ_AFFINITY_MASK
 	fi 	
         daemon irqbalance $ONESHOT $IRQ_AFFINITY
         RETVAL=$?
@@ -99,6 +99,7 @@ case "$1" in
   *)
 	echo $"Usage: $0 {start|stop|status|restart|reload|condrestart}"
 	exit 1
+	;;
 esac
 
 exit $?
