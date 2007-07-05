@@ -1,12 +1,15 @@
 #! /bin/sh
-#
-# irqbalance       Start/Stop irq balancing daemon
-#
+### BEGIN INIT INFO
+# Provides: irqbalance 
+# Default-Start:  3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop irqbalance daemon 
+# Description:  The irqbalance daemon will distribute interrupts across
+#		the cpus on a multiprocessor system with the purpose of
+#		spreading the load
+# 
+### END INIT INFO
 # chkconfig: 2345 13 87
-# description: The irqbalance daemon will distribute interrupts across  \
-#              the cpus on a multiprocessor system with the purpose of \
-#              spreading the load. \
-# processname: irqbalance
 
 
 # This is an interactive program, we need the current locale
