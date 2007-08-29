@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	3%{?dist}
+Release: 	4%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -70,6 +70,9 @@ exit 0
 
 
 %changelog
+* Wed Aug 29 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 2:0.55-4
+- Rebuild for selinux ppc32 issue.
+
 * Thu Jul 05 2007 Neil Horman <nhorman@redhat.com> - 0.55.3
 - Fixing LSB requirements (bz 246959)
 
