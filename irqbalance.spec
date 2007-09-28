@@ -27,7 +27,7 @@ multiple CPUs for enhanced performance.
 %prep
 %setup -q -c -a 0
 
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
 
 %build
