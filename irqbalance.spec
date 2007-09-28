@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	4%{?dist}
+Release: 	5%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -17,12 +17,18 @@ Obsoletes:	kernel-utils
 BuildRequires:	glib2-devel pkgconfig imake
 Requires:	glib2
 
+Patch0: irqbalance-pie.patch
+Patch1: irqbalance-0.55-cputree-parse.patch
+
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
 %prep
 %setup -q -c -a 0
+
+%patch0 -p1
+%patch1 -p1
 
 %build
 rm -rf $RPM_BUILD_ROOT
@@ -70,6 +76,10 @@ exit 0
 
 
 %changelog
+* Fri Sep 28 2007 Neil Horman <nhorman@redhat.com> - 2:0.55-5
+- Install pie patch
+- Grab Ulis cpuparse cleanup (bz 310821)
+
 * Wed Aug 29 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 2:0.55-4
 - Rebuild for selinux ppc32 issue.
 
