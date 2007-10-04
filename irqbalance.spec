@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	5%{?dist}
+Release: 	6%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -76,6 +76,9 @@ exit 0
 
 
 %changelog
+* Thu Oct 04 2007 Neil Horman <nhorman@redhat.com> - 2:0.55-6
+- Fix irqbalance init script (bz 317219)
+
 * Fri Sep 28 2007 Neil Horman <nhorman@redhat.com> - 2:0.55-5
 - Install pie patch
 - Grab Ulis cpuparse cleanup (bz 310821)
