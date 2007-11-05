@@ -46,7 +46,7 @@ esac
 RETVAL=0
 
 start() {
-        if [ -n "$ONESHOT" -a -f /var/lock/subsys/irqbalance ]; then
+        if [ -n "$ONESHOT" -a -f /var/run/irqbalance.pid ]; then
                 exit 0
         fi
         echo -n $"Starting $prog: "
@@ -54,12 +54,9 @@ start() {
 	then
 		export IRQBALANCE_BANNED_CPUS=$IRQ_AFFINITY_MASK
 	fi 	
-        daemon irqbalance $ONESHOT $IRQ_AFFINITY
+        daemon irqbalance $ONESHOT 
         RETVAL=$?
         echo
-        if [ $RETVAL -eq 0 ]; then
-                        touch /var/lock/subsys/irqbalance
-        fi
         return $RETVAL
 }
 

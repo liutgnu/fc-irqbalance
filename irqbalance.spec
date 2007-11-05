@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	6%{?dist}
+Release: 	7%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -19,6 +19,7 @@ Requires:	glib2
 
 Patch0: irqbalance-pie.patch
 Patch1: irqbalance-0.55-cputree-parse.patch
+Patch2: irqbalance-0.55-pid-file.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -29,6 +30,7 @@ multiple CPUs for enhanced performance.
 
 #%patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 rm -rf $RPM_BUILD_ROOT
@@ -76,6 +78,9 @@ exit 0
 
 
 %changelog
+* Thu Nov 01 2007 Neil Horman <nhorman@redhat.com> - 2:0.55-7
+- Update to properly hadndle pid files (bz 355231)
+
 * Thu Oct 04 2007 Neil Horman <nhorman@redhat.com> - 2:0.55-6
 - Fix irqbalance init script (bz 317219)
 

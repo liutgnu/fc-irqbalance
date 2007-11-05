@@ -1,0 +1,64 @@
+diff -up irqbalance-0.55/irqbalance-0.55/irqbalance.c.orig irqbalance-0.55/irqbalance-0.55/irqbalance.c
+--- irqbalance-0.55/irqbalance-0.55/irqbalance.c.orig	2007-11-01 11:43:24.000000000 -0400
++++ irqbalance-0.55/irqbalance-0.55/irqbalance.c	2007-11-01 15:00:53.000000000 -0400
+@@ -22,7 +22,11 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <malloc.h>
++#include <fcntl.h>
++#include <string.h>
+ #include <sys/time.h>
++#include <sys/types.h>
++#include <sys/stat.h>
+ 
+ #include "irqbalance.h"
+ 
+@@ -52,6 +56,9 @@ void sleep_approx(int seconds)
+ 
+ int main(int argc, char** argv)
+ {
++	int pidf;
++	char buf[16];
++
+ 	if (argc>1 && strstr(argv[1],"debug"))
+ 		debug_mode=1;
+ 	if (argc>1 && strstr(argv[1],"oneshot"))
+@@ -67,9 +74,6 @@ int main(int argc, char** argv)
+ 	if (getenv("IRQBALANCE_DEBUG")) 
+ 		debug_mode=1;
+ 
+-	parse_cpu_tree();
+-
+-
+ 	/* On single core UP systems irqbalance obviously has no work to do */
+ 	if (core_count<2) 
+ 		exit(EXIT_SUCCESS);
+@@ -82,6 +86,19 @@ int main(int argc, char** argv)
+ 		if (daemon(0,0))
+ 			exit(EXIT_FAILURE);
+ 
++	pidf = open("/var/run/irqbalance.pid",O_RDWR|O_CREAT|O_EXCL,0666);
++	if (pidf < 0)
++		exit(EXIT_FAILURE);
++
++	snprintf(buf, 16, "%d", getpid());
++	if (write(pidf, buf, strlen(buf)) < strlen(buf)) {
++		close(pidf);
++		unlink("/var/run/irqbalance.pid");
++		exit(EXIT_FAILURE);
++	}
++
++	close(pidf);	
++
+ 	parse_proc_interrupts();
+ 	sleep(SLEEP_INTERVAL/4);
+ 	reset_counts();
+@@ -134,5 +151,8 @@ int main(int argc, char** argv)
+ 			break;
+ 		counter++;
+ 	}
++
++	unlink("/var/run/irqbalance.pid");
++
+ 	return EXIT_SUCCESS;
+ }
