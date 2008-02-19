@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	7%{?dist}
+Release: 	8%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -78,6 +78,9 @@ exit 0
 
 
 %changelog
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 2:0.55-8
+- Autorebuild for GCC 4.3
+
 * Thu Nov 01 2007 Neil Horman <nhorman@redhat.com> - 2:0.55-7
 - Update to properly hadndle pid files (bz 355231)
 
