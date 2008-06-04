@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	9%{?dist}
+Release: 	10%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPL/OSL
@@ -78,6 +78,9 @@ exit 0
 
 
 %changelog
+* Tue Jun 04 2008 Neil Horman <nhorman@redhat.com> - 2:0.55-10
+- Update man page to explain why irqbalance exits on single cache (bz 449949)
+
 * Tue Mar 18 2008 Neil Horman <nhorman@redhat.com> - 2:0.55-9
 - Rediff pid-file patch to not remove initial parse_cpu_tree (bz 433270)
 
