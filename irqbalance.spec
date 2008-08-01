@@ -1,10 +1,10 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	10%{?dist}
+Release: 	11%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
-License:        GPL/OSL
+License:        GPLv2
 Source0:	http://www.irqbalance.org/releases/irqbalance-%{version}.tar.gz	
 Source1:	irqbalance.init
 Source2:	irqbalance.sysconfig
@@ -78,6 +78,9 @@ exit 0
 
 
 %changelog
+* Fri Aug 01 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 2:0.55-11
+- fix license tag
+
 * Tue Jun 04 2008 Neil Horman <nhorman@redhat.com> - 2:0.55-10
 - Update man page to explain why irqbalance exits on single cache (bz 449949)
 
