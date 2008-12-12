@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	11%{?dist}
+Release: 	12%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPLv2
@@ -78,6 +78,9 @@ exit 0
 
 
 %changelog
+* Fri Dec 12 2008 Neil Norman <nhorman@redhat.com> - 2:0.55-12
+- Remove odd Netorking dependence from irqbalance (bz 476179)
+
 * Fri Aug 01 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 2:0.55-11
 - fix license tag
 
