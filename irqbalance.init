@@ -23,12 +23,6 @@
 
 prog="irqbalance"
 
-# Check that networking is up.
-if [ "$NETWORKING" = "no" ]
-then
-	exit 0
-fi
-
 [ -f /usr/sbin/irqbalance ] || exit 0
 
 # fetch configuration if it exists
