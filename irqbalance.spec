@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	12%{?dist}
+Release: 	13%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPLv2
@@ -78,6 +78,9 @@ exit 0
 
 
 %changelog
+* Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:0.55-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Fri Dec 12 2008 Neil Norman <nhorman@redhat.com> - 2:0.55-12
 - Remove odd Netorking dependence from irqbalance (bz 476179)
 
