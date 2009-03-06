@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	13%{?dist}
+Release: 	14%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPLv2
@@ -12,7 +12,7 @@ Source3:	irqbalance.1
 Buildroot:      %{_tmppath}/%{name}-%{version}-root
 Prereq:		/sbin/chkconfig /sbin/service
 
-ExclusiveArch:	i386 x86_64 ia64 ppc ppc64
+ExclusiveArch:	i386 i586 x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
 BuildRequires:	glib2-devel pkgconfig imake
 Requires:	glib2
@@ -78,6 +78,9 @@ exit 0
 
 
 %changelog
+* Fri Mar 6 2009 Neil Horman <nhorman@redhat.com>
+- Update spec file to build for i586 as per new build guidelines (bz 488849)
+
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:0.55-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
