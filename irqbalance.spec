@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon.
 Name:           irqbalance
 Version:        0.55 
-Release: 	14%{?dist}
+Release: 	15%{?dist}
 Epoch:		2	
 Group:          System Environment/Base
 License:        GPLv2
@@ -78,6 +78,9 @@ exit 0
 
 
 %changelog
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:0.55-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Fri Mar 6 2009 Neil Horman <nhorman@redhat.com>
 - Update spec file to build for i586 as per new build guidelines (bz 488849)
 
