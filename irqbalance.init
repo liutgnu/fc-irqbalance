@@ -7,7 +7,6 @@
 # Description:  The irqbalance daemon will distribute interrupts across
 #		the cpus on a multiprocessor system with the purpose of
 #		spreading the load
-# 
 ### END INIT INFO
 # chkconfig: 2345 13 87
 
