@@ -1,21 +1,23 @@
-Summary:        IRQ balancing daemon.
+Summary:        IRQ balancing daemon
 Name:           irqbalance
-Version:        0.55 
-Release: 	14%{?dist}
-Epoch:		2	
+Version:        0.55
+Release:	17%{?dist}
+Epoch:		2
 Group:          System Environment/Base
 License:        GPLv2
-Source0:	http://www.irqbalance.org/releases/irqbalance-%{version}.tar.gz	
+Url:		http://irqbalance.org/
+Source0:	http://www.irqbalance.org/releases/irqbalance-%{version}.tar.gz
 Source1:	irqbalance.init
 Source2:	irqbalance.sysconfig
 Source3:	irqbalance.1
-Buildroot:      %{_tmppath}/%{name}-%{version}-root
-Prereq:		/sbin/chkconfig /sbin/service
+Buildroot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+Requires(post):	chkconfig
+Requires(postun):chkconfig
+Requires(preun):chkconfig
 
-ExclusiveArch:	i386 i586 x86_64 ia64 ppc ppc64
+ExclusiveArch:	%{ix86} x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
-BuildRequires:	glib2-devel pkgconfig imake
-Requires:	glib2
+BuildRequires:	glib2-devel pkgconfig
 
 Patch0: irqbalance-pie.patch
 Patch1: irqbalance-0.55-cputree-parse.patch
@@ -31,38 +33,31 @@ multiple CPUs for enhanced performance.
 #%patch0 -p1
 %patch1 -p1
 %patch2 -p1
+sed -i s/-Os//g %{name}-%{version}/Makefile
 
 %build
-rm -rf $RPM_BUILD_ROOT
-
-mkdir -p %{buildroot}/usr/sbin
-mkdir -p %{buildroot}/usr/man
-mkdir -p %{buildroot}/etc/rc.d/init.d
-mkdir -p %{buildroot}/etc/sysconfig
-
-cd irqbalance-%{version}
-make 
+cd %{name}-%{version}
+CFLAGS="%{optflags}" make %{?_smp_mflags}
 
 %install
-mkdir -p %{buildroot}/usr/share/man/man{1,8}
+rm -rf %{buildroot}
+cd %{name}-%{version}
+install -D -p -m 0755 %{name} %{buildroot}%{_sbindir}/%{name}
+install -D -p -m 0755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
+install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
-cd irqbalance-%{version}
-install irqbalance  %{buildroot}/usr/sbin
-install %{SOURCE1} %{buildroot}/etc/rc.d/init.d/irqbalance
-install %{SOURCE2} %{buildroot}/etc/sysconfig/irqbalance
-install %{SOURCE3} %{buildroot}/usr/share/man/man1/
-
-chmod -R a-s %{buildroot}
+install -d %{buildroot}%{_mandir}/man1/
+install -p -m 0644 %{SOURCE3} %{buildroot}%{_mandir}/man1/
 
 %clean
-[ "$RPM_BUILD_ROOT" != "/" ] && [ -d $RPM_BUILD_ROOT ] && rm -rf $RPM_BUILD_ROOT;
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-/usr/sbin/irqbalance
-/etc/rc.d/init.d/irqbalance
-%attr(0644,root,root) %{_mandir}/*/*
-%attr(0644,root,root) /etc/sysconfig/irqbalance
+%{_sbindir}/irqbalance
+%{_initrddir}/irqbalance
+%{_mandir}/man1/*
+%config(noreplace) %{_sysconfdir}/sysconfig/irqbalance
 
 %preun
 if [ "$1" = "0" ] ; then
@@ -78,6 +73,16 @@ exit 0
 
 
 %changelog
+* Fri Jul 31 2009 Peter Lemenkov <lemenkov@gmail.com> - 2:0.55-17
+- Cosmetic fixes in spec-file
+- Fixed rpmlint error in the init-script
+
+* Tue Jul 28 2009 Peter Lemenkov <lemenkov@gmail.com> - 2:0.55-16
+- Many imrovements in spec-file
+
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:0.55-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Fri Mar 6 2009 Neil Horman <nhorman@redhat.com>
 - Update spec file to build for i586 as per new build guidelines (bz 488849)
 
