@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon
 Name:           irqbalance
 Version:        0.55
-Release:	17%{?dist}
+Release:	18%{?dist}
 Epoch:		2
 Group:          System Environment/Base
 License:        GPLv2
@@ -17,7 +17,7 @@ Requires(preun):chkconfig
 
 ExclusiveArch:	%{ix86} x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
-BuildRequires:	glib2-devel pkgconfig
+BuildRequires:	glib2-devel pkgconfig imake
 
 Patch0: irqbalance-pie.patch
 Patch1: irqbalance-0.55-cputree-parse.patch
@@ -73,6 +73,9 @@ exit 0
 
 
 %changelog
+* Fri Jul 31 2009 Peter Lemenkov <lemenkov@gmail.com> - 2:0.55-18
+- Added back accidentaly forgotten imake
+
 * Fri Jul 31 2009 Peter Lemenkov <lemenkov@gmail.com> - 2:0.55-17
 - Cosmetic fixes in spec-file
 - Fixed rpmlint error in the init-script
