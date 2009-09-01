@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon
 Name:           irqbalance
 Version:        0.55
-Release:	19%{?dist}
+Release:	20%{?dist}
 Epoch:		2
 Group:          System Environment/Base
 License:        GPLv2
@@ -11,6 +11,7 @@ Source1:	irqbalance.init
 Source2:	irqbalance.sysconfig
 Source3:	irqbalance.1
 Buildroot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+BuildRequires:	autoreconf
 Requires(post):	chkconfig
 Requires(postun):chkconfig
 Requires(preun):chkconfig
@@ -81,6 +82,9 @@ exit 0
 
 
 %changelog
+* Tue Sep 01 2009 Neil Horman <nhorman@redhat.com> - 2:0.55-20
+- Fixing BuildRequires for new config script
+
 * Tue Sep 01 2009 Neil Horman <nhorman@redhat.com> - 2:0.55-19
 - Incorporate capng (bz 520699)
 
