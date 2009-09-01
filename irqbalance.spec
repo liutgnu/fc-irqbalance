@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon
 Name:           irqbalance
 Version:        0.55
-Release:	18%{?dist}
+Release:	19%{?dist}
 Epoch:		2
 Group:          System Environment/Base
 License:        GPLv2
@@ -22,6 +22,7 @@ BuildRequires:	glib2-devel pkgconfig imake
 Patch0: irqbalance-pie.patch
 Patch1: irqbalance-0.55-cputree-parse.patch
 Patch2: irqbalance-0.55-pid-file.patch
+Patch3: irqbalance-0.55-config-capng.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -33,10 +34,17 @@ multiple CPUs for enhanced performance.
 #%patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+touch %{name}-%{version}/NEWS
+touch %{name}-%{version}/AUTHORS
+touch %{name}-%{version}/README
+touch %{name}-%{version}/ChangeLog
 sed -i s/-Os//g %{name}-%{version}/Makefile
 
 %build
 cd %{name}-%{version}
+sh ./autogen.sh
+%{configure}
 CFLAGS="%{optflags}" make %{?_smp_mflags}
 
 %install
@@ -73,6 +81,9 @@ exit 0
 
 
 %changelog
+* Tue Sep 01 2009 Neil Horman <nhorman@redhat.com> - 2:0.55-19
+- Incorporate capng (bz 520699)
+
 * Fri Jul 31 2009 Peter Lemenkov <lemenkov@gmail.com> - 2:0.55-18
 - Added back accidentaly forgotten imake
 
