@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon
 Name:           irqbalance
 Version:        0.55
-Release:	23%{?dist}
+Release:	24%{?dist}
 Epoch:		2
 Group:          System Environment/Base
 License:        GPLv2
@@ -82,6 +82,9 @@ exit 0
 
 
 %changelog
+* Fri Sep 04 2009 Neil Horman <nhorman@redhat.com> - 2:0.55-24
+- Fixing irqbalance initscript (bz 521246)
+
 * Wed Sep 02 2009 Neil Horman <nhorman@redhat.com> - 2:0.55-23
 - Fixing BuildRequires for new config script
 
