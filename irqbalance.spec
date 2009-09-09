@@ -1,7 +1,7 @@
 Summary:        IRQ balancing daemon
 Name:           irqbalance
 Version:        0.55
-Release:	24%{?dist}
+Release:	25%{?dist}
 Epoch:		2
 Group:          System Environment/Base
 License:        GPLv2
@@ -11,14 +11,14 @@ Source1:	irqbalance.init
 Source2:	irqbalance.sysconfig
 Source3:	irqbalance.1
 Buildroot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-BuildRequires:	autoconf automake libtool
+BuildRequires:	autoconf automake libtool libcap-ng
 Requires(post):	chkconfig
 Requires(postun):chkconfig
 Requires(preun):chkconfig
 
 ExclusiveArch:	%{ix86} x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
-BuildRequires:	glib2-devel pkgconfig imake
+BuildRequires:	glib2-devel pkgconfig imake libcap-ng-devel
 
 Patch0: irqbalance-pie.patch
 Patch1: irqbalance-0.55-cputree-parse.patch
@@ -82,6 +82,9 @@ exit 0
 
 
 %changelog
+* Wed Sep 09 2009 Neil Horman <nhorman@redhat.com> - 2:0.55-25
+- Fixing BuildRequires
+
 * Fri Sep 04 2009 Neil Horman <nhorman@redhat.com> - 2:0.55-24
 - Fixing irqbalance initscript (bz 521246)
 
