@@ -1,12 +1,12 @@
 Summary:        IRQ balancing daemon
 Name:           irqbalance
-Version:        0.55
-Release:	25%{?dist}
+Version:        0.56
+Release:	1%{?dist}
 Epoch:		2
 Group:          System Environment/Base
 License:        GPLv2
 Url:		http://irqbalance.org/
-Source0:	http://www.irqbalance.org/releases/irqbalance-%{version}.tar.gz
+Source0:	http://irqbalance.googlecode.com/files/irqbalance-%{version}.tbz2
 Source1:	irqbalance.init
 Source2:	irqbalance.sysconfig
 Source3:	irqbalance.1
@@ -20,10 +20,6 @@ ExclusiveArch:	%{ix86} x86_64 ia64 ppc ppc64
 Obsoletes:	kernel-utils
 BuildRequires:	glib2-devel pkgconfig imake libcap-ng-devel
 
-Patch0: irqbalance-pie.patch
-Patch1: irqbalance-0.55-cputree-parse.patch
-Patch2: irqbalance-0.55-pid-file.patch
-Patch3: irqbalance-0.55-config-capng.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -32,10 +28,6 @@ multiple CPUs for enhanced performance.
 %prep
 %setup -q -c -a 0
 
-#%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
 touch %{name}-%{version}/NEWS
 touch %{name}-%{version}/AUTHORS
 touch %{name}-%{version}/README
@@ -82,6 +74,9 @@ exit 0
 
 
 %changelog
+* Thu Jun 10 2010 Neil Horman <nhorman@redhat.com> - 2:0.56-1
+- Updated to latest upstream version
+
 * Wed Sep 09 2009 Neil Horman <nhorman@redhat.com> - 2:0.55-25
 - Fixing BuildRequires
 
