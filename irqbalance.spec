@@ -1,24 +1,24 @@
 Summary:        IRQ balancing daemon
 Name:           irqbalance
 Version:        0.56
-Release:	2%{?dist}
-Epoch:		2
+Release:        3%{?dist}
+Epoch:          2
 Group:          System Environment/Base
 License:        GPLv2
-Url:		http://irqbalance.org/
-Source0:	http://irqbalance.googlecode.com/files/irqbalance-%{version}.tbz2
-Source1:	irqbalance.init
-Source2:	irqbalance.sysconfig
-Source3:	irqbalance.1
+Url:            http://irqbalance.org/
+Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tbz2
+Source1:        irqbalance.service
+Source2:        irqbalance.sysconfig
+Source3:        irqbalance.1
 Buildroot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-BuildRequires:	autoconf automake libtool libcap-ng
-Requires(post):	chkconfig
-Requires(postun):chkconfig
-Requires(preun):chkconfig
+BuildRequires:  autoconf automake libtool libcap-ng
+Requires(post): systemd-units
+Requires(postun):systemd-units
+Requires(preun):systemd-units
+#Requires(triggerun):systemd-units
 
-ExclusiveArch:	%{ix86} x86_64 ia64 ppc ppc64
-Obsoletes:	kernel-utils
-BuildRequires:	glib2-devel pkgconfig imake libcap-ng-devel
+ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64
+BuildRequires: glib2-devel pkgconfig imake libcap-ng-devel
 
 
 %description
@@ -44,7 +44,7 @@ CFLAGS="%{optflags}" make %{?_smp_mflags}
 rm -rf %{buildroot}
 cd %{name}-%{version}
 install -D -p -m 0755 %{name} %{buildroot}%{_sbindir}/%{name}
-install -D -p -m 0755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
+install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/irqbalance.service
 install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 install -d %{buildroot}%{_mandir}/man1/
@@ -56,24 +56,40 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %{_sbindir}/irqbalance
-%{_initrddir}/irqbalance
+%{_unitdir}/irqbalance.service
 %{_mandir}/man1/*
 %config(noreplace) %{_sysconfdir}/sysconfig/irqbalance
 
-%preun
-if [ "$1" = "0" ] ; then
- /sbin/chkconfig --del irqbalance
+%post
+if [ $1 -eq 1 ]; then
+    # Initial installation
+    /bin/systemctl enable irqbalance.service >/dev/null 2>&1 || :
 fi
 
-%post
-/sbin/chkconfig --add irqbalance
+%preun
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl disable irqbalance.service >/dev/null 2>&1 || :
+    /bin/systemctl stop irqbalance.service > /dev/null 2>&1 || :
+fi
 
-%triggerpostun -- kernel-utils
-/sbin/chkconfig --add irqbalance
-exit 0
+%postun
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart irqbalance.service >/dev/null 2>&1 || :
+fi
 
+%triggerun -- irqbalance < 0.56-3
+if /sbin/chkconfig irqbalance ; then
+    /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
+    /bin/systemctl enable irqbalance.service >/dev/null 2>&1 || :
+fi
 
 %changelog
+* Fri Mar 25 2011 Anton Arapov <anton@redhat.com> - 2:0.56-3
+- rework init in order to respect systemd. (bz 659622)
+
 * Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:0.56-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
