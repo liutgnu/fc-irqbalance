@@ -1,8 +1,9 @@
-Summary:        IRQ balancing daemon
 Name:           irqbalance
 Version:        0.56
 Release:        3%{?dist}
 Epoch:          2
+Summary:        IRQ balancing daemon
+
 Group:          System Environment/Base
 License:        GPLv2
 Url:            http://irqbalance.org/
@@ -10,39 +11,31 @@ Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tbz
 Source1:        irqbalance.service
 Source2:        irqbalance.sysconfig
 Source3:        irqbalance.1
-Buildroot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+
 BuildRequires:  autoconf automake libtool libcap-ng
+BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel
 Requires(post): systemd-units
 Requires(postun):systemd-units
 Requires(preun):systemd-units
 #Requires(triggerun):systemd-units
 
 ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64
-BuildRequires: glib2-devel pkgconfig imake libcap-ng-devel
-
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
 %prep
-%setup -q -c -a 0
+%setup -q
 
-touch %{name}-%{version}/NEWS
-touch %{name}-%{version}/AUTHORS
-touch %{name}-%{version}/README
-touch %{name}-%{version}/ChangeLog
-sed -i s/-Os//g %{name}-%{version}/Makefile
+sed -i s/-Os//g Makefile
 
 %build
-cd %{name}-%{version}
 sh ./autogen.sh
 %{configure}
 CFLAGS="%{optflags}" make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
-cd %{name}-%{version}
 install -D -p -m 0755 %{name} %{buildroot}%{_sbindir}/%{name}
 install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/irqbalance.service
 install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
@@ -50,13 +43,11 @@ install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -d %{buildroot}%{_mandir}/man1/
 install -p -m 0644 %{SOURCE3} %{buildroot}%{_mandir}/man1/
 
-%clean
-rm -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
+%doc COPYING AUTHORS
 %{_sbindir}/irqbalance
-%{_unitdir}/irqbalance.service
+/lib/systemd/system/irqbalance.service
 %{_mandir}/man1/*
 %config(noreplace) %{_sysconfdir}/sysconfig/irqbalance
 
@@ -87,6 +78,11 @@ if /sbin/chkconfig irqbalance ; then
 fi
 
 %changelog
+* Fri Apr  8 2011 Peter Robinson <pbrobinson@gmail.com> - 2:0.56-3
+- Fix build in rawhide
+- Add license file to rpm
+- Cleanup spec file
+
 * Fri Mar 25 2011 Anton Arapov <anton@redhat.com> - 2:0.56-3
 - rework init in order to respect systemd. (bz 659622)
 
