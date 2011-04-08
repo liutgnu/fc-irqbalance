@@ -37,7 +37,7 @@ CFLAGS="%{optflags}" make %{?_smp_mflags}
 
 %install
 install -D -p -m 0755 %{name} %{buildroot}%{_sbindir}/%{name}
-install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/irqbalance.service
+install -D -p -m 0644 %{SOURCE1} %{buildroot}/lib/systemd/system/irqbalance.service
 install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 install -d %{buildroot}%{_mandir}/man1/
