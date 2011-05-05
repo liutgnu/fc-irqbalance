@@ -72,10 +72,10 @@ if [ $1 -ge 1 ] ; then
 fi
 
 %triggerun -- irqbalance < 0.56-3
-if /sbin/chkconfig irqbalance ; then
-    /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
+if /sbin/chkconfig --level 3 irqbalance ; then
     /bin/systemctl enable irqbalance.service >/dev/null 2>&1 || :
 fi
+/sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
 * Fri Apr  8 2011 Peter Robinson <pbrobinson@gmail.com> - 2:0.56-3
