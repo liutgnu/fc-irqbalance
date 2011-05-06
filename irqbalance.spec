@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        0.56
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -71,13 +71,16 @@ if [ $1 -ge 1 ] ; then
     /bin/systemctl try-restart irqbalance.service >/dev/null 2>&1 || :
 fi
 
-%triggerun -- irqbalance < 0.56-3
+%triggerun -- irqbalance < 2:0.56-3
 if /sbin/chkconfig --level 3 irqbalance ; then
     /bin/systemctl enable irqbalance.service >/dev/null 2>&1 || :
 fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Fri May  6 2011 Bill Nottingham <notting@redhat.com> - 2:0.56-4
+- fix upgrade trigger
+
 * Fri Apr  8 2011 Peter Robinson <pbrobinson@gmail.com> - 2:0.56-3
 - Fix build in rawhide
 - Add license file to rpm
