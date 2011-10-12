@@ -1,6 +1,6 @@
 Name:           irqbalance
-Version:        0.56
-Release:        4%{?dist}
+Version:        1.0
+Release:        1%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -8,9 +8,7 @@ Group:          System Environment/Base
 License:        GPLv2
 Url:            http://irqbalance.org/
 Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tbz2
-Source1:        irqbalance.service
-Source2:        irqbalance.sysconfig
-Source3:        irqbalance.1
+Source1:        irqbalance.sysconfig
 
 BuildRequires:  autoconf automake libtool libcap-ng
 BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel
@@ -26,9 +24,7 @@ irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
 %prep
-%setup -q
-
-sed -i s/-Os//g Makefile
+%setup -q -n irqbalance
 
 %build
 sh ./autogen.sh
@@ -37,11 +33,11 @@ CFLAGS="%{optflags}" make %{?_smp_mflags}
 
 %install
 install -D -p -m 0755 %{name} %{buildroot}%{_sbindir}/%{name}
-install -D -p -m 0644 %{SOURCE1} %{buildroot}/lib/systemd/system/irqbalance.service
-install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+install -D -p -m 0644 ./misc/irqbalance.service %{buildroot}/lib/systemd/system/irqbalance.service
+install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 install -d %{buildroot}%{_mandir}/man1/
-install -p -m 0644 %{SOURCE3} %{buildroot}%{_mandir}/man1/
+install -p -m 0644 ./irqbalance.1 %{buildroot}%{_mandir}/man1/
 
 %files
 %defattr(-,root,root)
@@ -78,6 +74,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Wed Oct 12 2011 Neil Horman <nhorman@redhat.com> - 2:1.0-1
+- Update irqbalance to latest upstream version
+
 * Fri May  6 2011 Bill Nottingham <notting@redhat.com> - 2:0.56-4
 - fix upgrade trigger
 
