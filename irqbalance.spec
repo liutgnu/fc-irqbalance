@@ -10,7 +10,7 @@ Url:            http://irqbalance.org/
 Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tbz2
 Source1:        irqbalance.sysconfig
 
-BuildRequires:  autoconf automake libtool libcap-ng
+BuildRequires:  autoconf automake libtool libcap-ng numactl-devel
 BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel
 Requires(post): systemd-units
 Requires(postun):systemd-units
