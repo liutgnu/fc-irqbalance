@@ -1,0 +1,46 @@
+diff --git a/numa.c b/numa.c
+index 6e00243..0d93091 100644
+--- a/numa.c
++++ b/numa.c
+@@ -84,6 +84,14 @@ void build_numa_node_list(void)
+ 	DIR *dir = opendir(SYSFS_NODE_PATH);
+ 	struct dirent *entry;
+ 
++	/*
++	 * Add the unspecified node
++	 */
++	numa_nodes = g_list_append(numa_nodes, &unspecified_node);
++
++	if (!dir)
++		return;
++
+ 	do {
+ 		entry = readdir(dir);
+ 		if (!entry)
+@@ -96,6 +104,9 @@ void build_numa_node_list(void)
+ 
+ static void free_numa_node(gpointer data)
+ {
++	if (data == (void *)(&unspecified_node))
++		return;
++
+ 	free(data);
+ }
+ 
+diff --git a/placement.c b/placement.c
+index a5b976b..113891b 100644
+--- a/placement.c
++++ b/placement.c
+@@ -46,6 +46,12 @@ static void find_best_object(struct topo_obj *d, void *data)
+ 	cpumask_t subset;
+ 
+ 	/*
++ 	 * Don't consider the unspecified numa node here
++ 	 */
++	if ((d->obj_type == OBJ_TYPE_NODE) && (d->number == -1))
++		return;
++
++	/*
+  	 * If the hint policy is subset, then we only want 
+  	 * to consider objects that are within the irqs hint, but
+  	 * only if that irq in fact has published a hint

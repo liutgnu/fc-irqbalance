@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -9,6 +9,7 @@ License:        GPLv2
 Url:            http://irqbalance.org/
 Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tbz2
 Source1:        irqbalance.sysconfig
+Patch0:		irqbalance-bz746159-no-numa-nodes.patch
 
 BuildRequires:  autoconf automake libtool libcap-ng
 BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel numactl-devel
@@ -26,6 +27,7 @@ multiple CPUs for enhanced performance.
 
 %prep
 %setup -q -n irqbalance
+%patch0 -p1
 
 %build
 sh ./autogen.sh
@@ -75,6 +77,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Mon Oct 17 2011 Neil Horman <nhorman@redhat.com> - 2:1.0-2
+- Fix crash for systems with no numa node support
+
 * Wed Oct 12 2011 Neil Horman <nhorman@redhat.com> - 2:1.0-1
 - Update irqbalance to latest upstream version
 
