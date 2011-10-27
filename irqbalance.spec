@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -81,6 +81,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0-4
+- Rebuilt for glibc bug#747377
+
 * Fri Oct 21 2011 Neil Horman <nhorman@redhat.com> - 2:1.0-3
 - Fix another crash on non-numa systems (bz 748070)
 
