@@ -1,20 +1,17 @@
 Name:           irqbalance
-Version:        1.0
-Release:        4%{?dist}
+Version:        1.0.2
+Release:        1%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
 Group:          System Environment/Base
 License:        GPLv2
 Url:            http://irqbalance.org/
-Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tbz2
+Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tar.gz
 Source1:        irqbalance.sysconfig
-Patch0:		irqbalance-bz746159-no-numa-nodes.patch
-Patch1:		irqbalance-bz748070-numa-sysfs.patch
-Patch2:		irqbalance-bz748070-numa-pkg-assign.patch
 
 BuildRequires:  autoconf automake libtool libcap-ng numactl-devel
-BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel
+BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel numactl
 Requires: numactl
 Requires(post): systemd-units
 Requires(postun):systemd-units
@@ -28,13 +25,9 @@ irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
 %prep
-%setup -q -n irqbalance
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%setup -q
 
 %build
-sh ./autogen.sh
 %{configure}
 CFLAGS="%{optflags}" make %{?_smp_mflags}
 
@@ -81,6 +74,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Fri Nov 04 2011 Neil Horman <nhorman@redhat.com> - 2:1.0.2-1
+- Updated to latest upstream release
+
 * Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0-4
 - Rebuilt for glibc bug#747377
 
