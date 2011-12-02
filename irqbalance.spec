@@ -1,5 +1,5 @@
 Name:           irqbalance
-Version:        1.0.2
+Version:        1.0.3
 Release:        1%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
@@ -74,6 +74,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Fri Dec 02 2011 Neil Horman <nhorman@redhat.com> - 2:1.0.3-1
+- Updated to latest upstream release
+
 * Fri Nov 04 2011 Neil Horman <nhorman@redhat.com> - 2:1.0.2-1
 - Updated to latest upstream release
 
