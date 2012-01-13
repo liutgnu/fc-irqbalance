@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -74,6 +74,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Fri Dec 02 2011 Neil Horman <nhorman@redhat.com> - 2:1.0.3-1
 - Updated to latest upstream release
 
