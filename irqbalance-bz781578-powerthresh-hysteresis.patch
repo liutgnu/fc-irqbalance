@@ -1,0 +1,43 @@
+commit 5ed963e5cb88b32ecf220e2b155a3d88cddb838a
+Author: Neil Horman <nhorman@tuxdriver.com>
+Date:   Tue Jan 3 12:54:15 2012 -0500
+
+    powerthresh: add hysteresis to powersave mode
+    
+    We found that in some cases people were getting log spam from cpus constantly
+    leaving powersave mode.  This ensures that at least one cpu is in powersave mode
+    before we re-enable powersave on all cpus.
+    
+    Signed-off-by: Neil Horman <nhorman@tuxdriver.com>
+
+diff --git a/irqlist.c b/irqlist.c
+index c29ee84..36d4e0a 100644
+--- a/irqlist.c
++++ b/irqlist.c
+@@ -45,6 +45,7 @@ struct load_balance_info {
+ 	unsigned int num_within;
+ 	unsigned int num_over;
+ 	unsigned int num_under;
++	unsigned int num_powersave;
+ 	struct topo_obj *powersave;
+ };
+ 
+@@ -106,6 +107,9 @@ static void migrate_overloaded_irqs(struct topo_obj *obj, void *data)
+ 	struct load_balance_info *info = data;
+ 	int deviation;
+ 
++	if (obj->powersave_mode)
++		info->num_powersave++;
++
+ 	/*
+  	 * Don't rebalance irqs on objects whos load is below the average
+  	 */
+@@ -178,7 +182,7 @@ void update_migration_status(void)
+ 			info.powersave->powersave_mode = 1;
+ 			if (g_list_length(info.powersave->interrupts) > 0)
+ 				for_each_irq(info.powersave->interrupts, force_irq_migration, NULL);
+-		} else if (info.num_over) {
++		} else if ((info.num_over) && (info.num_powersave)) {
+ 			syslog(LOG_INFO, "Load average increasing, re-enabling all cpus for irq balancing\n");
+ 			for_each_object(cpus, clear_powersave_mode, NULL);
+ 		}

@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -20,12 +20,15 @@ Requires(preun):systemd-units
 
 ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64
 
+Patch0: irqbalance-bz781578-powerthresh-hysteresis.patch
+
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{configure}
@@ -74,6 +77,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Mon Jan 16 2012 Neil Horman <nhorman@redhat.com> - 2:1.0.3-2
+- Fixed log spew on powerthresh re-enablement (bz 781578)
+
 * Fri Dec 02 2011 Neil Horman <nhorman@redhat.com> - 2:1.0.3-1
 - Update to latest upstream (bz 759547)
 
