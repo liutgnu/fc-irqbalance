@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -10,15 +10,18 @@ Url:            http://irqbalance.org/
 Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tar.gz
 Source1:        irqbalance.sysconfig
 
-BuildRequires:  autoconf automake libtool libcap-ng numactl-devel
-BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel numactl
+BuildRequires:  autoconf automake libtool libcap-ng
+BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel
+%ifnarch %{arm}
+BuildRequires:	numactl-devel numactl
 Requires: numactl
+%endif
 Requires(post): systemd-units
 Requires(postun):systemd-units
 Requires(preun):systemd-units
 #Requires(triggerun):systemd-units
 
-ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64
+ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 %{arm}
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -74,6 +77,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Sun Feb  5 2012 Peter Robinson <pbrobinson@fedoraproject.org> - 2:1.0.3-3
+- Build on ARM
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
