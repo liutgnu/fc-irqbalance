@@ -1,0 +1,38 @@
+commit e9e9dda3037dac1792f127f93ae743ffb92be910
+Author: Petr Holasek <pholasek@redhat.com>
+Date:   Mon Feb 20 16:59:05 2012 +0100
+
+    When IRQBALANCE_BANNED_CPUS is set, /proc/stat is not parsed properly.
+    
+    proc stats counts all the cpus in /proc/stat, but compares that number to the
+    value in get_cpu_count(), which returns the number of cpus actively being
+    balanced.  Since that value doesn't include banned cpus, its incorrect.  Since
+    we don't want to measure the load on banned cpus anyway, just skip those lines
+    so cpucount doesn't increment and the count remains equal.
+    
+    Signed-off-by: Petr Holasek <pholasek@redhat.com>
+    Signed-off-by: Neil Horman <nhorman@tuxdriver.com>
+
+diff --git a/procinterrupts.c b/procinterrupts.c
+index 4d3b07b..c032caf 100644
+--- a/procinterrupts.c
++++ b/procinterrupts.c
+@@ -32,6 +32,8 @@
+ 
+ #define LINESIZE 4096
+ 
++extern cpumask_t banned_cpus;
++
+ static int proc_int_has_msi = 0;
+ static int msi_found_in_sysfs = 0;
+ 
+@@ -217,6 +219,9 @@ void parse_proc_stat(void)
+ 
+ 		cpunr = strtoul(&line[3], NULL, 10);
+ 
++		if (cpu_isset(cpunr, banned_cpus))
++			continue;
++
+ 		rc = sscanf(line, "%*s %*d %*d %*d %*d %*d %d %d", &irq_load, &softirq_load);
+ 		if (rc < 2)
+ 			break;	

@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -21,6 +21,7 @@ Requires(preun):systemd-units
 ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64
 
 Patch0: irqbalance-bz781578-powerthresh-hysteresis.patch
+Patch1: irqbalance-bz790899-banned-cpus.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -29,6 +30,7 @@ multiple CPUs for enhanced performance.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{configure}
@@ -77,6 +79,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Thu Mar 1 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-3
+- Fixed stat file parsing when some cpus are banned (bz 790899)
+
 * Mon Jan 16 2012 Neil Horman <nhorman@redhat.com> - 2:1.0.3-2
 - Fixed log spew on powerthresh re-enablement (bz 781578)
 
