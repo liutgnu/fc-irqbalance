@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -13,8 +13,8 @@ Source1:        irqbalance.sysconfig
 BuildRequires:  autoconf automake libtool libcap-ng
 BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel
 %ifnarch %{arm}
-BuildRequires:	numactl-devel numactl
-Requires: numactl
+BuildRequires:	numactl-devel numactl-libs
+Requires: numactl-libs
 %endif
 Requires(post): systemd-units
 Requires(postun):systemd-units
@@ -77,6 +77,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Mon Apr 16 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-4
+- Updated libnuma dependencies
+
 * Sun Feb  5 2012 Peter Robinson <pbrobinson@fedoraproject.org> - 2:1.0.3-3
 - Build on ARM
 
