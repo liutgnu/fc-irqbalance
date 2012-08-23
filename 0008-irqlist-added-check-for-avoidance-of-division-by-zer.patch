@@ -1,0 +1,31 @@
+From 8285d9a1cac9cf74130ae71df0ddb4ed14122544 Mon Sep 17 00:00:00 2001
+From: Petr Holasek <pholasek@redhat.com>
+Date: Tue, 21 Aug 2012 14:45:57 +0200
+Subject: [PATCH 8/8] irqlist: added check for avoidance of division by zero
+
+When counting load_sources, its occasionally possible to have one of our object
+lists be zero (if you exlude all the cpus from balancing for instance).  In
+these cases load_sources can be zero, and that will cause a SIGFPE.  Avoid that
+by making sure that load_sources is always at least 1.
+
+Signed-off-by: Petr Holasek <pholasek@redhat.com>
+Signed-off-by: Neil Horman <nhorman@tuxdriver.com>
+---
+ irqlist.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/irqlist.c b/irqlist.c
+index e03aa7b..c0e0d2b 100644
+--- a/irqlist.c
++++ b/irqlist.c
+@@ -160,6 +160,7 @@ static void clear_powersave_mode(struct topo_obj *obj, void *data __attribute__(
+ 	int ___load_sources;\
+ 	memset(&(info), 0, sizeof(struct load_balance_info));\
+ 	for_each_object((name), gather_load_stats, &(info));\
++	(info).load_sources = ((info).load_sources == 0) ? 1 : ((info).load_sources);\
+ 	(info).avg_load = (info).total_load / (info).load_sources;\
+ 	for_each_object((name), compute_deviations, &(info));\
+ 	___load_sources = ((info).load_sources == 1) ? 1 : ((info).load_sources - 1);\
+-- 
+1.7.11.4
+
