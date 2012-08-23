@@ -1,0 +1,172 @@
+From 4da232bbf763e535ec2512087aa9ac8a96fba3d9 Mon Sep 17 00:00:00 2001
+From: Neil Horman <nhorman@tuxdriver.com>
+Date: Fri, 17 Feb 2012 14:27:11 -0500
+Subject: [PATCH 2/8] introduce banirq option
+
+Fixing bug http://code.google.com/p/irqbalance/issues/detail?id=25
+
+It was pointed out that during the rewrite of irqbalance I inadvertently removed
+the support for the IRQBALANCE_BANNED_IRQS environment variable. While going to
+return it to the build, it occured to me that, given the availability of msi[x]
+irqs, a single system can literally have thousands of interrupt sources, making
+the environment variable a non-scalable solution.  Instead I'm adding a new
+option, banirqs, which takes its place.  It lets you build a list of irqs that
+you want irqbalance to leave alone.
+
+Signed-off-by: Neil Horman <nhorman@tuxdriver.com>
+---
+ classify.c   | 32 ++++++++++++++++++++++++++++++++
+ irqbalance.1 | 11 +++++++----
+ irqbalance.c | 15 ++++++++++++---
+ irqbalance.h |  1 +
+ 4 files changed, 52 insertions(+), 7 deletions(-)
+
+diff --git a/classify.c b/classify.c
+index 124dab0..d59da7f 100644
+--- a/classify.c
++++ b/classify.c
+@@ -52,6 +52,7 @@ static short class_codes[MAX_CLASS] = {
+ };
+ 
+ static GList *interrupts_db;
++static GList *banned_irqs;
+ 
+ #define SYSDEV_DIR "/sys/bus/pci/devices"
+ 
+@@ -63,6 +64,30 @@ static gint compare_ints(gconstpointer a, gconstpointer b)
+ 	return ai->irq - bi->irq;
+ }
+ 
++void add_banned_irq(int irq)
++{
++	struct irq_info find, *new;
++	GList *entry;
++
++	find.irq = irq;
++	entry = g_list_find_custom(banned_irqs, &find, compare_ints);
++	if (entry)
++		return;
++
++	new = calloc(sizeof(struct irq_info), 1);
++	if (!new) {
++		if (debug_mode)
++			printf("No memory to ban irq %d\n", irq);
++		return;
++	}
++
++	new->irq = irq;
++
++	banned_irqs = g_list_append(banned_irqs, new);
++	return;
++}
++
++			
+ /*
+  * Inserts an irq_info struct into the intterupts_db list
+  * devpath points to the device directory in sysfs for the 
+@@ -90,6 +115,13 @@ static struct irq_info *add_one_irq_to_db(const char *devpath, int irq)
+ 		return NULL;
+ 	}
+ 
++	entry = g_list_find_custom(banned_irqs, &find, compare_ints);
++	if (entry) {
++		if (debug_mode)
++			printf("SKIPPING BANNED IRQ %d\n", irq);
++		return NULL;
++	}
++
+ 	new = calloc(sizeof(struct irq_info), 1);
+ 	if (!new)
+ 		return NULL;
+diff --git a/irqbalance.1 b/irqbalance.1
+index 55fc15f..978c7c1 100644
+--- a/irqbalance.1
++++ b/irqbalance.1
+@@ -62,6 +62,13 @@ average cpu softirq workload, and no cpus are more than 1 standard deviation
+ above (and have more than 1 irq assigned to them), attempt to place 1 cpu in
+ powersave mode.  In powersave mode, a cpu will not have any irqs balanced to it,
+ in an effort to prevent that cpu from waking up without need.
++
++.TP
++.B --banirq=<irqnum>
++Add the specified irq list to the set of banned irqs. irqbalance will not affect
++the affinity of any irqs on the banned list, allowing them to be specified
++manually.  This option is addative and can be specified multiple times
++
+ .SH "ENVIRONMENT VARIABLES"
+ .TP
+ .B IRQBALANCE_ONESHOT
+@@ -75,10 +82,6 @@ Same as --debug
+ .B IRQBALANCE_BANNED_CPUS
+ Provides a mask of cpus which irqbalance should ignore and never assign interrupts to
+ 
+-.TP
+-.B IRQBALANCE_BANNED_INTERRUPTS
+-A list of space delimited IRQ numbers that irqbalance should not touch
+-
+ .SH "Homepage"
+ http://code.google.com/p/irqbalance
+ 
+diff --git a/irqbalance.c b/irqbalance.c
+index 99c5db7..c613e2b 100644
+--- a/irqbalance.c
++++ b/irqbalance.c
+@@ -72,7 +72,7 @@ struct option lopts[] = {
+ static void usage(void)
+ {
+ 	printf("irqbalance [--oneshot | -o] [--debug | -d] [--hintpolicy= | -h [exact|subset|ignore]]\n");
+-	printf("	[--powerthresh= | -p <off> | <n>]\n");
++	printf("	[--powerthresh= | -p <off> | <n>] [--banirq= | -i <n>]\n");
+ }
+ 
+ static void parse_command_line(int argc, char **argv)
+@@ -81,7 +81,7 @@ static void parse_command_line(int argc, char **argv)
+ 	int longind;
+ 
+ 	while ((opt = getopt_long(argc, argv,
+-		"odh:p:",
++		"odh:p:b:",
+ 		lopts, &longind)) != -1) {
+ 
+ 		switch(opt) {
+@@ -103,6 +103,14 @@ static void parse_command_line(int argc, char **argv)
+ 					exit(1);
+ 				}
+ 				break;
++			case 'i':
++				val = strtoull(optarg, NULL, 10);
++				if (val == ULONG_MAX) {
++					usage();
++					exit(1);
++				}
++				add_banned_irq((int)val);
++				break;
+ 			case 'p':
+ 				if (!strncmp(optarg, "off", strlen(optarg)))
+ 					power_thresh = ULONG_MAX;
+@@ -179,8 +187,9 @@ int main(int argc, char** argv)
+ #ifdef HAVE_GETOPT_LONG
+ 	parse_command_line(argc, argv);
+ #else
+-	if (argc>1 && strstr(argv[1],"--debug"))
++	if (argc>1 && strstr(argv[1],"--debug")) {
+ 		debug_mode=1;
++	}
+ 	if (argc>1 && strstr(argv[1],"--oneshot"))
+ 		one_shot_mode=1;
+ #endif
+diff --git a/irqbalance.h b/irqbalance.h
+index 4e85325..956aa8c 100644
+--- a/irqbalance.h
++++ b/irqbalance.h
+@@ -103,6 +103,7 @@ extern int get_cpu_count(void);
+  */
+ extern void rebuild_irq_db(void);
+ extern void free_irq_db(void);
++extern void add_banned_irq(int irq);
+ extern void for_each_irq(GList *list, void (*cb)(struct irq_info *info,  void *data), void *data);
+ extern struct irq_info *get_irq_info(int irq);
+ extern void migrate_irq(GList **from, GList **to, struct irq_info *info);
+-- 
+1.7.11.4
+

@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -11,7 +11,7 @@ Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tar
 Source1:        irqbalance.sysconfig
 
 BuildRequires:  autoconf automake libtool libcap-ng
-BuildRequires:  glib2-devel pkgconfig imake libcap-ng-devel
+BuildRequires:  glib2-devel pkgconfig libcap-ng-devel
 %ifnarch %{arm}
 BuildRequires:	numactl-devel numactl-libs
 Requires: numactl-libs
@@ -23,12 +23,29 @@ Requires(preun):systemd-units
 
 ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 %{arm}
 
+Patch1: 0001-Add-sample-irqbalance-environment-file.patch
+Patch2: 0002-introduce-banirq-option.patch
+Patch3: 0003-When-IRQBALANCE_BANNED_CPUS-is-set-proc-stat-is-not-.patch
+Patch4: 0004-Make-irqbalance-scan-for-new-irqs-when-it-detects-ne.patch
+Patch5: 0005-Add-banscript-option.patch
+Patch6: 0006-irqbalance-cpu-powersave-code-disabled-when-power_th.patch
+Patch7: 0007-apply-affinity-hint-also-if-the-current-policy-is-su.patch
+Patch8: 0008-irqlist-added-check-for-avoidance-of-division-by-zer.patch
+
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
 %prep
 %setup -q
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
 %build
 %{configure}
@@ -51,24 +68,13 @@ install -p -m 0644 ./irqbalance.1 %{buildroot}%{_mandir}/man1/
 %config(noreplace) %{_sysconfdir}/sysconfig/irqbalance
 
 %post
-if [ $1 -eq 1 ]; then
-    # Initial installation
-    /bin/systemctl enable irqbalance.service >/dev/null 2>&1 || :
-fi
+%systemd_post irqbalance.service
 
 %preun
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl disable irqbalance.service >/dev/null 2>&1 || :
-    /bin/systemctl stop irqbalance.service > /dev/null 2>&1 || :
-fi
+%systemd_preun irqbalance.service
 
 %postun
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart irqbalance.service >/dev/null 2>&1 || :
-fi
+%systemd_postun_with_restart irqbalance.service
 
 %triggerun -- irqbalance < 2:0.56-3
 if /sbin/chkconfig --level 3 irqbalance ; then
@@ -77,6 +83,16 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Wed Aug 22 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-5
+- Make irqbalance scan for new irqs when it detects new irqs (bz832815)
+- Fixes SIGFPE crash for some banning configuration (bz849792)
+- Fixes affinity_hint values processing (bz832815)
+- Adds banirq and bansript options (bz837049)
+- imake isn't needed for building any more (bz844359)
+- Fixes clogging of syslog (bz837646)
+- Added IRQBALANCE_ARGS variable for passing arguments via systemd(bz837048)
+- Fixes --hint-policy=subset behavior (bz844381)
+
 * Sun Apr 15 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-4
 - Updated libnuma dependencies
 
