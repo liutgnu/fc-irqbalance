@@ -1,0 +1,13 @@
+diff -up irqbalance-1.0.3/misc/irqbalance.service.orig irqbalance-1.0.3/misc/irqbalance.service
+--- irqbalance-1.0.3/misc/irqbalance.service.orig	2012-08-29 15:31:13.243626708 +0200
++++ irqbalance-1.0.3/misc/irqbalance.service	2012-08-29 15:31:46.969628997 +0200
+@@ -3,7 +3,8 @@ Description=irqbalance daemon
+ After=syslog.target
+ 
+ [Service]
+-EnvironmentFile=/path/to/irqbalance.env
++EnvironmentFile=/etc/sysconfig/irqbalance
++Type=forking
+ ExecStart=/usr/sbin/irqbalance $IRQBALANCE_ARGS
+ 
+ [Install]

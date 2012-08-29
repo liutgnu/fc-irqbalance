@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -31,6 +31,7 @@ Patch5: 0005-Add-banscript-option.patch
 Patch6: 0006-irqbalance-cpu-powersave-code-disabled-when-power_th.patch
 Patch7: 0007-apply-affinity-hint-also-if-the-current-policy-is-su.patch
 Patch8: 0008-irqlist-added-check-for-avoidance-of-division-by-zer.patch
+Patch9: irqbalance-1.0.3-unit-file-proper-paths.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -46,6 +47,7 @@ multiple CPUs for enhanced performance.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 %{configure}
@@ -83,7 +85,10 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
-* Wed Aug 22 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-5
+* Wed Aug 29 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-7
+- Systemd unit file paths was edited in proper way.
+
+* Mon Aug 27 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-6
 - Make irqbalance scan for new irqs when it detects new irqs (bz832815)
 - Fixes SIGFPE crash for some banning configuration (bz849792)
 - Fixes affinity_hint values processing (bz832815)
@@ -92,6 +97,9 @@ fi
 - Fixes clogging of syslog (bz837646)
 - Added IRQBALANCE_ARGS variable for passing arguments via systemd(bz837048)
 - Fixes --hint-policy=subset behavior (bz844381)
+
+* Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
 * Sun Apr 15 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-4
 - Updated libnuma dependencies
