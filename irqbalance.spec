@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -13,7 +13,8 @@ Source1:        irqbalance.sysconfig
 BuildRequires:  autoconf automake libtool libcap-ng
 BuildRequires:  glib2-devel pkgconfig libcap-ng-devel
 %ifnarch %{arm}
-BuildRequires:	numactl-devel numactl-libs
+BuildRequires:  numactl-devel
+BuildRequires:  systemd-units
 Requires: numactl-libs
 %endif
 Requires(post): systemd-units
@@ -23,12 +24,15 @@ Requires(preun):systemd-units
 
 ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 %{arm}
 
+Patch1: irqbalance-1.0.4-env-file-path.patch
+
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
 %prep
 %setup -q
+%patch1 -p1
 
 %build
 %{configure}
@@ -36,7 +40,7 @@ CFLAGS="%{optflags}" make %{?_smp_mflags}
 
 %install
 install -D -p -m 0755 %{name} %{buildroot}%{_sbindir}/%{name}
-install -D -p -m 0644 ./misc/irqbalance.service %{buildroot}/lib/systemd/system/irqbalance.service
+install -D -p -m 0644 ./misc/irqbalance.service %{buildroot}%{_unitdir}/irqbalance.service
 install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 install -d %{buildroot}%{_mandir}/man1/
@@ -46,7 +50,7 @@ install -p -m 0644 ./irqbalance.1 %{buildroot}%{_mandir}/man1/
 %defattr(-,root,root)
 %doc COPYING AUTHORS
 %{_sbindir}/irqbalance
-/lib/systemd/system/irqbalance.service
+%{_unitdir}/irqbalance.service
 %{_mandir}/man1/*
 %config(noreplace) %{_sysconfdir}/sysconfig/irqbalance
 
@@ -66,6 +70,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Wed Aug 29 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.4-2
+- Env file path edited
+
 * Mon Aug 27 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.4-1
 - Rebased to version 1.0.4
 
