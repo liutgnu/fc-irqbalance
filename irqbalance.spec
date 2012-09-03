@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -32,6 +32,7 @@ Patch6: 0006-irqbalance-cpu-powersave-code-disabled-when-power_th.patch
 Patch7: 0007-apply-affinity-hint-also-if-the-current-policy-is-su.patch
 Patch8: 0008-irqlist-added-check-for-avoidance-of-division-by-zer.patch
 Patch9: irqbalance-1.0.3-unit-file-proper-paths.patch
+Patch10: 0001-numa-only-ignore-the-unspecified-node-during-placeme.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -48,6 +49,7 @@ multiple CPUs for enhanced performance.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 %{configure}
@@ -85,6 +87,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Mon Sep 3 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-8
+- Fix balancing on numa systems (bz844381)
+
 * Wed Aug 29 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-7
 - Systemd unit file paths was edited in proper way.
 
