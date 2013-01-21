@@ -1,13 +1,13 @@
 Name:           irqbalance
-Version:        1.0.4
-Release:        2%{?dist}
+Version:        1.0.5
+Release:        1%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
 Group:          System Environment/Base
 License:        GPLv2
 Url:            http://irqbalance.org/
-Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tar.bz2
+Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tar.gz
 Source1:        irqbalance.sysconfig
 
 BuildRequires:  autoconf automake libtool libcap-ng
@@ -70,6 +70,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Mon Jan 21 2013 Petr Holasek <pholasek@redhat.com> - 2:1.0.5-1
+- Rebased to version 1.0.5
+
 * Wed Aug 29 2012 Petr Holasek <pholasek@redhat.com> - 2:1.0.4-2
 - Env file path edited
 
