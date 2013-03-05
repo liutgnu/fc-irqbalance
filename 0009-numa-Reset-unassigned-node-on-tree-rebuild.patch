@@ -1,0 +1,35 @@
+diff -up irqbalance-1.0.3/numa.c.orig irqbalance-1.0.3/numa.c
+--- irqbalance-1.0.3/numa.c.orig	2011-12-02 17:07:50.000000000 +0100
++++ irqbalance-1.0.3/numa.c	2013-02-21 20:27:04.808423358 +0100
+@@ -37,7 +37,7 @@
+ 
+ GList *numa_nodes = NULL;
+ 
+-static struct topo_obj unspecified_node = {
++static struct topo_obj unspecified_node_template = {
+ 	.load = 0,
+ 	.number = -1,
+ 	.obj_type = OBJ_TYPE_NODE,
+@@ -48,6 +48,8 @@ static struct topo_obj unspecified_node
+ 	.obj_type_list = &numa_nodes,
+ };
+ 
++static struct topo_obj unspecified_node;
++
+ static void add_one_node(const char *nodename)
+ {
+ 	char path[PATH_MAX];
+@@ -85,6 +87,13 @@ void build_numa_node_list(void)
+ 	struct dirent *entry;
+ 
+ 	/*
++	 * Note that we copy the unspcified node from the template here
++	 * in the event we just freed the object tree during a rescan.
++	 * This ensures we don't get stale list pointers anywhere
++	 */
++	memcpy(&unspecified_node, &unspecified_node_template, sizeof (struct topo_obj));
++
++	/*
+ 	 * Add the unspecified node
+ 	 */
+ 	numa_nodes = g_list_append(numa_nodes, &unspecified_node);
