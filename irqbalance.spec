@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -25,6 +25,7 @@ Requires(preun):systemd-units
 ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 %{arm}
 
 Patch1: irqbalance-1.0.4-env-file-path.patch
+Patch2: irqbalance-1.0.5-no-virt-service.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -33,6 +34,7 @@ multiple CPUs for enhanced performance.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{configure}
@@ -70,6 +72,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Wed Jun 19 2013 Petr Holasek <pholasek@redhat.com> - 2:1.0.5-3
+- Block irqbalance from running in virt environments (bz975474)
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
