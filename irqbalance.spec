@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -12,15 +12,11 @@ Source1:        irqbalance.sysconfig
 
 BuildRequires:  autoconf automake libtool libcap-ng
 BuildRequires:  glib2-devel pkgconfig libcap-ng-devel
+BuildRequires:  systemd
 %ifnarch %{arm}
 BuildRequires:  numactl-devel
-BuildRequires:  systemd-units
 Requires: numactl-libs
 %endif
-Requires(post): systemd-units
-Requires(postun):systemd-units
-Requires(preun):systemd-units
-#Requires(triggerun):systemd-units
 
 %define _hardened_build 1
 
@@ -37,19 +33,18 @@ multiple CPUs for enhanced performance.
 %patch1 -p1
 
 %build
-%{configure}
+%configure
 CFLAGS="%{optflags}" make %{?_smp_mflags}
 
 %install
 install -D -p -m 0755 %{name} %{buildroot}%{_sbindir}/%{name}
-install -D -p -m 0644 ./misc/irqbalance.service %{buildroot}%{_unitdir}/irqbalance.service
+install -D -p -m 0644 ./misc/irqbalance.service %{buildroot}/%{_unitdir}/irqbalance.service
 install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 install -d %{buildroot}%{_mandir}/man1/
 install -p -m 0644 ./irqbalance.1 %{buildroot}%{_mandir}/man1/
 
 %files
-%defattr(-,root,root)
 %doc COPYING AUTHORS
 %{_sbindir}/irqbalance
 %{_unitdir}/irqbalance.service
@@ -72,6 +67,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Mon Jul 22 2013 Peter Robinson <pbrobinson@fedoraproject.org> 2:1.0.6-3
+- Fix FTBFS on ARM, minor spec cleanups
+
 * Thu Jul 18 2013 Petr Holasek <pholasek@redhat.com> - 2:1.0.6-2
 - Hardened build
 
