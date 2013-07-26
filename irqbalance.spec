@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -20,6 +20,8 @@ Requires(post): systemd-units
 Requires(postun):systemd-units
 Requires(preun):systemd-units
 #Requires(triggerun):systemd-units
+
+%define _hardened_build 1
 
 ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 %{arm}
 
@@ -89,6 +91,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Fri Jul 26 2013 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-10
+- Hardened build #bz983612
+
 * Thu Feb 21 2013 Petr Holasek <pholasek@redhat.com> - 2:1.0.3-9
 - Fixed segfault #bz886305
 
