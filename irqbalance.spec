@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -21,6 +21,8 @@ Requires(post): systemd-units
 Requires(postun):systemd-units
 Requires(preun):systemd-units
 #Requires(triggerun):systemd-units
+
+%define _hardened_build 1
 
 ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 %{arm}
 
@@ -70,6 +72,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Fri Jul 26 2013 Petr Holasek <pholasek@redhat.com> - 2:1.0.5-3
+- Hardened build
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
