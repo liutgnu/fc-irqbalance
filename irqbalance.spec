@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -67,6 +67,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Mon Jul 22 2013 Peter Robinson <pbrobinson@fedoraproject.org> 2:1.0.6-3
 - Fix FTBFS on ARM, minor spec cleanups
 
