@@ -1,13 +1,13 @@
 Name:           irqbalance
-Version:        1.0.6
-Release:        4%{?dist}
+Version:        1.0.7
+Release:        1%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
 Group:          System Environment/Base
 License:        GPLv2
 Url:            http://irqbalance.org/
-Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tar.gz
+Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tar.bz2
 Source1:        irqbalance.sysconfig
 
 BuildRequires:  autoconf automake libtool libcap-ng
@@ -67,6 +67,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Fri Oct 11 2013 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-1
+- Rebased to version 1.0.7
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
