@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -20,7 +20,7 @@ Requires: numactl-libs
 
 %define _hardened_build 1
 
-ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 %{arm}
+ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 ppc64le %{arm}
 
 Patch1: irqbalance-1.0.4-env-file-path.patch
 
@@ -67,6 +67,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Fri Jan 10 2014 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-2
+- ppc64le architecture support was enabled
+
 * Fri Oct 11 2013 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-1
 - Rebased to version 1.0.7
 
