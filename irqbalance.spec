@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -33,6 +33,7 @@ multiple CPUs for enhanced performance.
 %patch1 -p1
 
 %build
+./autogen.sh
 %configure
 CFLAGS="%{optflags}" make %{?_smp_mflags}
 
@@ -67,6 +68,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Mon Feb 10 2014 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-4
+- Missing autogen.sh call fixed
+
 * Mon Feb 10 2014 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-3
 - Irqbalance website address was fixed
 
