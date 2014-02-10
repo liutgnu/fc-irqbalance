@@ -1,13 +1,13 @@
 Name:           irqbalance
 Version:        1.0.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
 Group:          System Environment/Base
 License:        GPLv2
-Url:            http://irqbalance.org/
-Source0:        http://irqbalance.googlecode.com/files/irqbalance-%{version}.tar.bz2
+Url:            https://github.com/Irqbalance/irqbalance
+Source0:        https://github.com/Irqbalance/irqbalance/archive/v%{version}.tar.gz
 Source1:        irqbalance.sysconfig
 
 BuildRequires:  autoconf automake libtool libcap-ng
@@ -67,6 +67,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Mon Feb 10 2014 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-3
+- Irqbalance website address was fixed
+
 * Fri Jan 10 2014 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-2
 - ppc64le architecture support was enabled
 
@@ -197,7 +200,7 @@ fi
 * Fri Aug 01 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 2:0.55-11
 - fix license tag
 
-* Tue Jun 04 2008 Neil Horman <nhorman@redhat.com> - 2:0.55-10
+* Wed Jun 04 2008 Neil Horman <nhorman@redhat.com> - 2:0.55-10
 - Update man page to explain why irqbalance exits on single cache (bz 449949)
 
 * Tue Mar 18 2008 Neil Horman <nhorman@redhat.com> - 2:0.55-9
