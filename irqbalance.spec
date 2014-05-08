@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.7
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -23,6 +23,7 @@ Requires: numactl-libs
 ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 ppc64le %{arm}
 
 Patch1: irqbalance-1.0.4-env-file-path.patch
+Patch2: irqbalance-1.0.7-nopcidevs_memleak.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -31,6 +32,7 @@ multiple CPUs for enhanced performance.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
 
 %build
 ./autogen.sh
@@ -68,6 +70,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Thu May 08 2014 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-5
+- Fixed memory leak (bz1095915)
+
 * Mon Feb 10 2014 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-4
 - Missing autogen.sh call fixed
 
