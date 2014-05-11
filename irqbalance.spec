@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.7
-Release:        5%{?dist}
+Release:        6%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -20,7 +20,7 @@ Requires: numactl-libs
 
 %define _hardened_build 1
 
-ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 ppc64le %{arm}
+ExcludeArch: s390 s390x
 
 Patch1: irqbalance-1.0.4-env-file-path.patch
 Patch2: irqbalance-1.0.7-nopcidevs_memleak.patch
@@ -70,6 +70,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Sun May 11 2014 Peter Robinson <pbrobinson@fedoraproject.org> 2:1.0.7-6
+- Switch ExclusiveArch to ExcludeArch as all but s390 is supported (also build for aarch64)
+
 * Thu May 08 2014 Petr Holasek <pholasek@redhat.com> - 2:1.0.7-5
 - Fixed memory leak (bz1095915)
 
