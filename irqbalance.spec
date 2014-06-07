@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.0.7
-Release:        6%{?dist}
+Release:        7%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -70,6 +70,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2:1.0.7-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Sun May 11 2014 Peter Robinson <pbrobinson@fedoraproject.org> 2:1.0.7-6
 - Switch ExclusiveArch to ExcludeArch as all but s390 is supported (also build for aarch64)
 
