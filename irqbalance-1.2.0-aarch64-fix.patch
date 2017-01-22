@@ -1,0 +1,13 @@
+diff -up irqbalance-1.2.0/procinterrupts.c.orig irqbalance-1.2.0/procinterrupts.c
+--- irqbalance-1.2.0/procinterrupts.c.orig	2017-01-13 08:19:20.737858470 +0100
++++ irqbalance-1.2.0/procinterrupts.c	2017-01-13 08:19:51.297986428 +0100
+@@ -148,6 +148,9 @@ GList* collect_full_irq_list()
+ 	char *line = NULL;
+ 	size_t size = 0;
+ 	char *irq_name, *irq_mod, *savedptr, *last_token, *p;
++#ifdef AARCH64
++	char *tmp;
++#endif
+ 
+ 	file = fopen("/proc/interrupts", "r");
+ 	if (!file)
