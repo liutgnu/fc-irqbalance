@@ -1,8 +1,8 @@
-diff -up irqbalance-1.0.4/misc/irqbalance.service.orig irqbalance-1.0.4/misc/irqbalance.service
---- irqbalance-1.0.4/misc/irqbalance.service.orig	2012-08-29 16:24:42.011844627 +0200
-+++ irqbalance-1.0.4/misc/irqbalance.service	2012-08-29 16:24:59.817845765 +0200
-@@ -3,7 +3,7 @@ Description=irqbalance daemon
- After=syslog.target
+diff -up ./misc/irqbalance.service.path ./misc/irqbalance.service
+--- ./misc/irqbalance.service.path	2017-11-14 13:09:56.011146473 -0500
++++ ./misc/irqbalance.service	2017-11-14 13:10:13.480075654 -0500
+@@ -4,7 +4,7 @@ After=syslog.target
+ ConditionVirtualization=!container
  
  [Service]
 -EnvironmentFile=/path/to/irqbalance.env
