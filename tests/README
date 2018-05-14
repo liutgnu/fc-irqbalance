@@ -1,0 +1,2 @@
+initial tests:
+run make check, which runs any selftests in the upstream source tarball
