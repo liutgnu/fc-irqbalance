@@ -4,7 +4,6 @@ Release:        2%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
-Group:          System Environment/Base
 License:        GPLv2
 Url:            https://github.com/Irqbalance/irqbalance
 Source0:        https://github.com/Irqbalance/irqbalance/archive/irqbalance-%{version}.tar.gz
