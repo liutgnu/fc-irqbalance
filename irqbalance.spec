@@ -1,6 +1,6 @@
 Name:           irqbalance
-Version:        1.4.0
-Release:        5%{?dist}
+Version:        1.6.0
+Release:        1%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -22,7 +22,6 @@ Requires: numactl-libs
 
 ExcludeArch: s390 s390x
 
-Patch1: irqbalance-1.0.4-env-file-path.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -30,7 +29,6 @@ multiple CPUs for enhanced performance.
 
 %prep
 %setup -q
-%patch1 -p1
 
 %build
 ./autogen.sh
@@ -71,6 +69,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Wed Jun 03 2020 Neil Horman <nhorman@redhat.com> - 2:1.6.0-1
+- Update to latest upstream (bz1712908)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.4.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
