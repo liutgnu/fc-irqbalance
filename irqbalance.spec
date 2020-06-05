@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -22,6 +22,7 @@ Requires: numactl-libs
 
 ExcludeArch: s390 s390x
 
+Patch1: irqbalance-1.6.0-env-file-path.patch
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
@@ -29,6 +30,7 @@ multiple CPUs for enhanced performance.
 
 %prep
 %setup -q
+%patch1 -p1
 
 %build
 ./autogen.sh
@@ -69,6 +71,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Thu Jun 04 2020 Adam Williamson <awilliam@redhat.com> - 2:1.6.0-2
+- Restore environment file patch and fix service start (thanks Ondřej Lysoněk)
+
 * Wed Jun 03 2020 Neil Horman <nhorman@redhat.com> - 2:1.6.0-1
 - Update to latest upstream (bz1712908)
 

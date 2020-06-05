@@ -1,0 +1,11 @@
+--- a/misc/irqbalance.service	2020-06-02 14:33:35.794592546 +0200
++++ b/misc/irqbalance.service	2020-06-02 14:34:08.678922108 +0200
+@@ -5,7 +5,7 @@
+ ConditionVirtualization=!container
+ 
+ [Service]
+-EnvironmentFile=/path/to/irqbalance.env
++EnvironmentFile=/etc/sysconfig/irqbalance
+ ExecStart=/usr/sbin/irqbalance --foreground $IRQBALANCE_ARGS
+ CapabilityBoundingSet=
+ NoNewPrivileges=yes
