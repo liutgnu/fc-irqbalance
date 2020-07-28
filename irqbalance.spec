@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 
@@ -71,6 +71,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Adam Williamson <awilliam@redhat.com> - 2:1.6.0-2
 - Restore environment file patch and fix service start (thanks Ondřej Lysoněk)
 
