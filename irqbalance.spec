@@ -1,7 +1,7 @@
 Name:           irqbalance
 Version:        1.7.0
-Release:        3%{?dist}
-Epoch:          1 
+Release:        4%{?dist}
+Epoch:          2 
 Summary:        IRQ balancing daemon
 
 License:        GPLv2
@@ -69,6 +69,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Wed Aug 05 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2:1.7.0-4
+- Epoch never can go backwards
+
 * Tue Aug 04 2020 Neil Horman <nhorman@redhat.com> - 2:1.7.0-1
 - Update to latest upstream (bz 1866002)
 
