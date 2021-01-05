@@ -12,6 +12,7 @@ Source1:        irqbalance.sysconfig
 BuildRequires:  autoconf automake libtool libcap-ng
 BuildRequires:  glib2-devel pkgconf libcap-ng-devel
 BuildRequires:  systemd ncurses-devel
+BuildRequires:  make
 Requires: ncurses-libs
 %ifnarch %{arm}
 BuildRequires:  numactl-devel
