@@ -1,3 +1,0 @@
-#!/bin/bash
-export TEST_DOCKER_EXTRA_ARGS="--security-opt seccomp:unconfined"
-exec merge-standard-inventory "$@"
