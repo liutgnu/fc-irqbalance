@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.7.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Epoch:          2 
 Summary:        IRQ balancing daemon
 
@@ -70,6 +70,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Tue Jun 29 2021 Colin Walters <walters@verbum.org> - 2:1.7.0-7
+- Rebuild pointlessly just to bring this back into rawhide
+
 * Tue Mar 02 2021 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 2:1.7.0-6
 - Rebuilt for updated systemd-rpm-macros
   See https://pagure.io/fesco/issue/2583.
