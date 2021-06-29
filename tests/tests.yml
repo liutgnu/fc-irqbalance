@@ -1,0 +1,19 @@
+---
+# This first play always runs on the local staging system
+- hosts: localhost
+  roles:
+  - role: standard-test-beakerlib
+    tags:
+    - classic
+    tests:
+    - selftest
+    required_packages:
+      - autoconf
+      - automake
+      - libtool
+      - libcap-ng-devel
+      - glib2-devel 
+      - pkgconf
+      - systemd
+      - ncurses-devel
+      - numactl-devel

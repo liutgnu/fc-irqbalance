@@ -1,0 +1,4 @@
+PURPOSE of /CoreOS/irqbalance/Sanity/selftest
+Description: Executes rngtest to validate integrity of irqbalance 
+Author: Neil Horman <nhorman@redhat.com>
+ 
