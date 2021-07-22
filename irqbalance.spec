@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.7.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Epoch:          2 
 Summary:        IRQ balancing daemon
 
@@ -70,6 +70,9 @@ fi
 /sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
 
 %changelog
+* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.7.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Tue Jun 29 2021 Colin Walters <walters@verbum.org> - 2:1.7.0-7
 - Rebuild pointlessly just to bring this back into rawhide
 
