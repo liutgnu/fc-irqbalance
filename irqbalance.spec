@@ -1,6 +1,6 @@
 Name:           irqbalance
-Version:        1.7.0
-Release:        8%{?dist}
+Version:        1.8.0
+Release:        1%{?dist}
 Epoch:          2 
 Summary:        IRQ balancing daemon
 
@@ -14,12 +14,11 @@ BuildRequires:  glib2-devel pkgconf libcap-ng-devel
 BuildRequires:  systemd ncurses-devel
 BuildRequires:  make
 Requires: ncurses-libs
+
 %ifnarch %{arm}
 BuildRequires:  numactl-devel
 Requires: numactl-libs
 %endif
-
-%define _hardened_build 1
 
 ExcludeArch: s390 s390x
 
@@ -34,13 +33,12 @@ multiple CPUs for enhanced performance.
 %build
 ./autogen.sh
 %configure
-CFLAGS="%{optflags}" make %{?_smp_mflags}
+%{make_build}
 
 %install
 install -D -p -m 0755 %{name} %{buildroot}%{_sbindir}/%{name}
 install -D -p -m 0644 ./misc/irqbalance.service %{buildroot}/%{_unitdir}/irqbalance.service
 install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-
 install -d %{buildroot}%{_mandir}/man1/
 install -p -m 0644 ./irqbalance.1 %{buildroot}%{_mandir}/man1/
 
@@ -63,13 +61,10 @@ make check
 %postun
 %systemd_postun_with_restart irqbalance.service
 
-%triggerun -- irqbalance < 2:0.56-3
-if /sbin/chkconfig --level 3 irqbalance ; then
-    /bin/systemctl enable irqbalance.service >/dev/null 2>&1 || :
-fi
-/sbin/chkconfig --del irqbalance >/dev/null 2>&1 || :
-
 %changelog
+* Tue Nov 16 2021 Peter Robinson <pbrobinson@fedoraproject.org> - 2:1.8.0-1
+- Update to 1.8.0
+
 * Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.7.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
