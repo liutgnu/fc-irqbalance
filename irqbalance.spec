@@ -1,6 +1,6 @@
 Name:           irqbalance
 Version:        1.8.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          2 
 Summary:        IRQ balancing daemon
 
@@ -62,6 +62,9 @@ make check
 %systemd_postun_with_restart irqbalance.service
 
 %changelog
+* Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.8.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.8.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
