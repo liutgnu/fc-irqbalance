@@ -1,13 +1,15 @@
 Name:           irqbalance
 Version:        1.8.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          2 
 Summary:        IRQ balancing daemon
 
 License:        GPLv2
-Url:            https://github.com/Irqbalance/irqbalance
-Source0:        https://github.com/Irqbalance/irqbalance/archive/irqbalance-%{version}.tar.gz
+URL:            https://github.com/Irqbalance/irqbalance
+Source0:        %{url}/archive/v%{version}/irqbalance-%{version}.tar.gz
 Source1:        irqbalance.sysconfig
+Patch0:         %{url}/commit/f8bdd0e64284d841544fd3ebe22f4652902ba8d2.patch#/fix-format-security.patch
+
 
 BuildRequires:  autoconf automake libtool libcap-ng
 BuildRequires:  glib2-devel pkgconf libcap-ng-devel
@@ -28,7 +30,7 @@ irqbalance is a daemon that evenly distributes IRQ load across
 multiple CPUs for enhanced performance.
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 ./autogen.sh
@@ -62,6 +64,9 @@ make check
 %systemd_postun_with_restart irqbalance.service
 
 %changelog
+* Sun Jul 24 2022 Leigh Scott <leigh123linux@gmail.com> - 2:1.8.0-4
+- Fix compile issue
+
 * Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.8.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
