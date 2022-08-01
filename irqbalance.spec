@@ -1,6 +1,6 @@
 Name:           irqbalance
-Version:        1.8.0
-Release:        4%{?dist}
+Version:        1.9.0
+Release:        1%{?dist}
 Epoch:          2 
 Summary:        IRQ balancing daemon
 
@@ -8,7 +8,6 @@ License:        GPLv2
 URL:            https://github.com/Irqbalance/irqbalance
 Source0:        %{url}/archive/v%{version}/irqbalance-%{version}.tar.gz
 Source1:        irqbalance.sysconfig
-Patch0:         %{url}/commit/f8bdd0e64284d841544fd3ebe22f4652902ba8d2.patch#/fix-format-security.patch
 
 
 BuildRequires:  autoconf automake libtool libcap-ng
@@ -64,6 +63,9 @@ make check
 %systemd_postun_with_restart irqbalance.service
 
 %changelog
+* Mon Aug 01 2022 Timothée Ravier <tim@siosm.fr> - 2:1.9.0-1
+- Update to 1.9.0 (fedora#1952715 fedora#2091169 fedora#2063926)
+
 * Sun Jul 24 2022 Leigh Scott <leigh123linux@gmail.com> - 2:1.8.0-4
 - Fix compile issue
 
