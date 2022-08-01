@@ -1,14 +1,12 @@
 Name:           irqbalance
 Version:        1.9.0
 Release:        1%{?dist}
-Epoch:          2 
+Epoch:          2
 Summary:        IRQ balancing daemon
-
 License:        GPLv2
 URL:            https://github.com/Irqbalance/irqbalance
 Source0:        %{url}/archive/v%{version}/irqbalance-%{version}.tar.gz
 Patch1:         irqbalance-1.9.0-environment-file-sysconfig.patch
-
 
 BuildRequires:  autoconf automake libtool libcap-ng
 BuildRequires:  glib2-devel pkgconf libcap-ng-devel
@@ -22,7 +20,6 @@ Requires: numactl-libs
 %endif
 
 ExcludeArch: s390 s390x
-
 
 %description
 irqbalance is a daemon that evenly distributes IRQ load across
