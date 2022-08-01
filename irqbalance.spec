@@ -7,7 +7,6 @@ Summary:        IRQ balancing daemon
 License:        GPLv2
 URL:            https://github.com/Irqbalance/irqbalance
 Source0:        %{url}/archive/v%{version}/irqbalance-%{version}.tar.gz
-Source1:        irqbalance.sysconfig
 Patch1:         irqbalance-1.9.0-environment-file-sysconfig.patch
 
 
@@ -40,7 +39,7 @@ multiple CPUs for enhanced performance.
 %install
 install -D -p -m 0755 %{name} %{buildroot}%{_sbindir}/%{name}
 install -D -p -m 0644 ./misc/irqbalance.service %{buildroot}/%{_unitdir}/irqbalance.service
-install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+install -D -p -m 0644 ./misc/irqbalance.env %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -d %{buildroot}%{_mandir}/man1/
 install -p -m 0644 ./irqbalance.1 %{buildroot}%{_mandir}/man1/
 
@@ -67,6 +66,7 @@ make check
 * Mon Aug 01 2022 Timothée Ravier <tim@siosm.fr> - 2:1.9.0-1
 - Update to 1.9.0 (fedora#1952715 fedora#2091169 fedora#2063926)
 - Fix EnvironmentFile location in systemd unit (fedora#2058510)
+- Use upstream environment file in systemd unit
 
 * Sun Jul 24 2022 Leigh Scott <leigh123linux@gmail.com> - 2:1.8.0-4
 - Fix compile issue
