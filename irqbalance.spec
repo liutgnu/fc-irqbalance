@@ -1,14 +1,12 @@
 Name:           irqbalance
-Version:        1.9.1
-Release:        2%{?dist}
+Version:        1.9.2
+Release:        1%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
 License:        GPLv2
 URL:            https://github.com/Irqbalance/irqbalance
 Source0:        %{url}/archive/v%{version}/irqbalance-%{version}.tar.gz
 Patch1:         irqbalance-1.9.0-environment-file-sysconfig.patch
-# https://github.com/Irqbalance/irqbalance/issues/241
-Patch2:         irqbalance-1.9.1-fix-uninitialized-variable.patch
 
 BuildRequires:  autoconf automake libtool libcap-ng
 BuildRequires:  glib2-devel pkgconf libcap-ng-devel
@@ -62,6 +60,9 @@ make check
 %systemd_postun_with_restart irqbalance.service
 
 %changelog
+* Tue Feb 07 2023 Timothée Ravier <tim@siosm.fr> - 2:1.9.2-1
+- Update to 1.9.2 (fedora#2167835)
+
 * Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.9.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
 
