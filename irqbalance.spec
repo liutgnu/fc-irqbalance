@@ -3,7 +3,7 @@ Version:        1.9.2
 Release:        1%{?dist}
 Epoch:          2
 Summary:        IRQ balancing daemon
-License:        GPLv2
+License:        GPL-2.0-only
 URL:            https://github.com/Irqbalance/irqbalance
 Source0:        %{url}/archive/v%{version}/irqbalance-%{version}.tar.gz
 Patch1:         irqbalance-1.9.0-environment-file-sysconfig.patch
